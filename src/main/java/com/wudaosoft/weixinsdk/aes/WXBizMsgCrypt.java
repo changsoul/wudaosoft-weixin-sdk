@@ -23,7 +23,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
 
-import com.wudaosoft.weixinsdk.CommonApi;
+import com.wudaosoft.weixinsdk.WeiXinConfig;
 import com.wudaosoft.weixinsdk.utils.SHA1;
 
 
@@ -90,12 +90,12 @@ public class WXBizMsgCrypt {
 	 * @return 加密后base64编码的字符串
 	 * @throws AesException aes加密失败
 	 */
-	public static String encrypt(String randomStr, String text) throws AesException {
+	public static String encrypt(String randomStr, String text, WeiXinConfig wxConf) throws AesException {
 		ByteGroup byteCollector = new ByteGroup();
 		byte[] randomStrBytes = randomStr.getBytes(CHARSET);
 		byte[] textBytes = text.getBytes(CHARSET);
 		byte[] networkBytesOrder = getNetworkBytesOrder(textBytes.length);
-		byte[] appidBytes = CommonApi.APP_ID.getBytes(CHARSET);
+		byte[] appidBytes = wxConf.getAppId().getBytes(CHARSET);
 
 		// randomStr + networkBytesOrder + text + appid
 		byteCollector.addBytes(randomStrBytes);
@@ -113,8 +113,8 @@ public class WXBizMsgCrypt {
 		try {
 			// 设置加密模式为AES的CBC模式
 			Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
-			SecretKeySpec keySpec = new SecretKeySpec(CommonApi.AES_KEY, "AES");
-			IvParameterSpec iv = new IvParameterSpec(CommonApi.AES_KEY, 0, 16);
+			SecretKeySpec keySpec = new SecretKeySpec(wxConf.getAesKey(), "AES");
+			IvParameterSpec iv = new IvParameterSpec(wxConf.getAesKey(), 0, 16);
 			cipher.init(Cipher.ENCRYPT_MODE, keySpec, iv);
 
 			// 加密
@@ -137,13 +137,13 @@ public class WXBizMsgCrypt {
 	 * @return 解密得到的明文
 	 * @throws AesException aes解密失败
 	 */
-	public static String decrypt(String text) throws AesException {
+	public static String decrypt(String text, WeiXinConfig wxConf) throws AesException {
 		byte[] original;
 		try {
 			// 设置解密模式为AES的CBC模式
 			Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
-			SecretKeySpec key_spec = new SecretKeySpec(CommonApi.AES_KEY, "AES");
-			IvParameterSpec iv = new IvParameterSpec(Arrays.copyOfRange(CommonApi.AES_KEY, 0, 16));
+			SecretKeySpec key_spec = new SecretKeySpec(wxConf.getAesKey(), "AES");
+			IvParameterSpec iv = new IvParameterSpec(Arrays.copyOfRange(wxConf.getAesKey(), 0, 16));
 			cipher.init(Cipher.DECRYPT_MODE, key_spec, iv);
 
 			// 使用BASE64对密文进行解码
@@ -175,7 +175,7 @@ public class WXBizMsgCrypt {
 		}
 
 		// appid不相同的情况
-		if (!from_appid.equals(CommonApi.APP_ID)) {
+		if (!from_appid.equals(wxConf.getAppId())) {
 			throw new AesException(AesException.ValidateAppidError);
 		}
 		return xmlContent;
@@ -197,11 +197,11 @@ public class WXBizMsgCrypt {
 	 * @return 加密后的可以直接回复用户的密文，包括msg_signature, timestamp, nonce, encrypt的xml格式的字符串
 	 * @throws AesException 执行失败，请查看该异常的错误码和具体的错误信息
 	 */
-	public static String encryptMsg(String replyMsg, String timeStamp, String nonce) throws AesException {
+	public static String encryptMsg(String replyMsg, String timeStamp, String nonce, WeiXinConfig wxConf) throws AesException {
 		// 加密
-		String encrypt = encrypt(getRandomStr(), replyMsg);
+		String encrypt = encrypt(getRandomStr(), replyMsg, wxConf);
 
-		String signature = SHA1.getSHA1(CommonApi.TOKEN, timeStamp, nonce, encrypt);
+		String signature = SHA1.getSHA1(wxConf.getToken(), timeStamp, nonce, encrypt);
 
 		// System.out.println("发送给平台的签名是: " + signature[1].toString());
 		// 生成发送的xml
@@ -225,13 +225,13 @@ public class WXBizMsgCrypt {
 	 * @return 解密后的原文
 	 * @throws AesException 执行失败，请查看该异常的错误码和具体的错误信息
 	 */
-	public static String decryptMsg(String msgSignature, String timeStamp, String nonce, String postData)
+	public static String decryptMsg(String msgSignature, String timeStamp, String nonce, String postData, WeiXinConfig wxConf)
 			throws AesException {
 
 		// 密钥，公众账号的app secret
 
 		// 验证安全签名
-		String signature = SHA1.getSHA1(CommonApi.TOKEN, timeStamp, nonce, postData);
+		String signature = SHA1.getSHA1(wxConf.getToken(), timeStamp, nonce, postData);
 
 		// 和URL中的签名比较是否相等
 		// System.out.println("第三方收到URL中的签名：" + msg_sign);
@@ -241,7 +241,7 @@ public class WXBizMsgCrypt {
 		}
 
 		// 解密
-		String result = decrypt(postData);
+		String result = decrypt(postData, wxConf);
 		return result;
 	}
 
@@ -255,15 +255,15 @@ public class WXBizMsgCrypt {
 	 * @return 解密之后的echostr
 	 * @throws AesException 执行失败，请查看该异常的错误码和具体的错误信息
 	 */
-	public static String verifyUrl(String msgSignature, String timeStamp, String nonce, String echoStr)
+	public static String verifyUrl(String msgSignature, String timeStamp, String nonce, String echoStr, WeiXinConfig wxConf)
 			throws AesException {
-		String signature = SHA1.getSHA1(CommonApi.TOKEN, timeStamp, nonce, echoStr);
+		String signature = SHA1.getSHA1(wxConf.getToken(), timeStamp, nonce, echoStr);
 
 		if (!signature.equals(msgSignature)) {
 			throw new AesException(AesException.ValidateSignatureError);
 		}
 
-		String result = decrypt(echoStr);
+		String result = decrypt(echoStr, wxConf);
 		return result;
 	}
 

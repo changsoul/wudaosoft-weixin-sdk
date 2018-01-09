@@ -18,8 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.wudaosoft.weixinsdk.aes.AesException;
-
 /**
  * <p>
  * </p>
@@ -49,7 +47,7 @@ public class ApiServlet extends HttpServlet {
 
 		if (signature != null && timestamp != null && nonce != null && echostr != null) {
 
-			boolean flag = CommonApi.checkSignature(signature, timestamp, nonce);
+			boolean flag = CommonApi.checkSignature("", signature, timestamp, nonce);
 
 			if (flag) {
 				log.info("check weixin signature success");
@@ -72,13 +70,13 @@ public class ApiServlet extends HttpServlet {
 		
 		try {
 					
-			try {
-				respXML = WeiXinMessageProcess.processRequest(req);
-			} catch (AesException e) {
-				log.warn(e.getMessage());
-			} catch (Exception e) {
-				log.error(e.getMessage(), e);
-			}
+//			try {
+//				respXML = WeiXinMessageProcess.processRequest(req);
+//			} catch (AesException e) {
+//				log.warn(e.getMessage());
+//			} catch (Exception e) {
+//				log.error(e.getMessage(), e);
+//			}
 			
 			if(respXML == null)
 				respXML = "";

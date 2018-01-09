@@ -17,8 +17,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.wudaosoft.weixinsdk.ApiUrlConstants;
-import com.wudaosoft.weixinsdk.CommonApi;
 import com.wudaosoft.weixinsdk.GlobalReturnCode;
+import com.wudaosoft.weixinsdk.WeiXinConfig;
 import com.wudaosoft.weixinsdk.httpclient.HttpClientUtils;
 import com.wudaosoft.weixinsdk.utils.JsonUtils;
 
@@ -31,7 +31,11 @@ public class UserGroupApi {
 
 	private static final Logger log = LoggerFactory.getLogger(UserGroupApi.class);
 	
-	private UserGroupApi() {
+	private WeiXinConfig wxConf;
+
+	public UserGroupApi(WeiXinConfig wxConf) {
+		super();
+		this.wxConf = wxConf;
 	}
 	
 	/**
@@ -39,7 +43,7 @@ public class UserGroupApi {
 	 * @param name 组名
 	 * @return GlobalReturnCode
 	 */
-	public static GlobalReturnCode createGroup(String name) {
+	public GlobalReturnCode createGroup(String name) {
 		JSONObject req = new JSONObject();
 		
 		JSONObject sub = new JSONObject();
@@ -47,7 +51,7 @@ public class UserGroupApi {
 		
 		req.put("group", sub);
 		
-		String url = ApiUrlConstants.GROUPS_CREATE + "?access_token="+CommonApi.getAccessToken();
+		String url = ApiUrlConstants.GROUPS_CREATE + "?access_token="+wxConf.getAccessToken();
 		
 		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, req.toString());
 		
@@ -60,7 +64,7 @@ public class UserGroupApi {
 	 * @param name 组名
 	 * @return GlobalReturnCode
 	 */
-	public static GlobalReturnCode updateGroup(int id, String name) {
+	public GlobalReturnCode updateGroup(int id, String name) {
 		JSONObject req = new JSONObject();
 		
 		JSONObject sub = new JSONObject();
@@ -69,7 +73,7 @@ public class UserGroupApi {
 		
 		req.put("group", sub);
 		
-		String url = ApiUrlConstants.GROUPS_UPDATE + "?access_token="+CommonApi.getAccessToken();
+		String url = ApiUrlConstants.GROUPS_UPDATE + "?access_token="+wxConf.getAccessToken();
 		
 		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, req.toString());
 		
@@ -80,9 +84,9 @@ public class UserGroupApi {
 	 * 查询所有分组
 	 * @return List or null
 	 */
-	public static List<Group> getGroups() {
+	public List<Group> getGroups() {
 		
-		String url = ApiUrlConstants.GROUPS_GET + "?access_token="+CommonApi.getAccessToken();
+		String url = ApiUrlConstants.GROUPS_GET + "?access_token="+wxConf.getAccessToken();
 		
 		JSONObject resp = HttpClientUtils.getForJsonResult(url);
 		
@@ -116,11 +120,11 @@ public class UserGroupApi {
 	 * @param openId 用户的OpenID
 	 * @return -1 for error
 	 */
-	public static int getGroupId(String openId) {
+	public int getGroupId(String openId) {
 		JSONObject req = new JSONObject();
 		req.put("openid", openId);
 		
-		String url = ApiUrlConstants.GROUPS_GET_ID + "?access_token="+CommonApi.getAccessToken();
+		String url = ApiUrlConstants.GROUPS_GET_ID + "?access_token="+wxConf.getAccessToken();
 		
 		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, req.toString());
 		
@@ -141,12 +145,12 @@ public class UserGroupApi {
 	 * @param toGroupId 分组id
 	 * @return GlobalReturnCode
 	 */
-	public static GlobalReturnCode moveToGroup(String openId, int toGroupId) {
+	public GlobalReturnCode moveToGroup(String openId, int toGroupId) {
 		JSONObject req = new JSONObject();
 		req.put("openid", openId);
 		req.put("to_groupid", toGroupId);
 		
-		String url = ApiUrlConstants.MEMBERS_UPDATE + "?access_token="+CommonApi.getAccessToken();
+		String url = ApiUrlConstants.MEMBERS_UPDATE + "?access_token="+wxConf.getAccessToken();
 		
 		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, req.toString());
 		

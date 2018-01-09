@@ -12,8 +12,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.wudaosoft.weixinsdk.ApiUrlConstants;
-import com.wudaosoft.weixinsdk.CommonApi;
 import com.wudaosoft.weixinsdk.GlobalReturnCode;
+import com.wudaosoft.weixinsdk.WeiXinConfig;
 import com.wudaosoft.weixinsdk.httpclient.HttpClientUtils;
 import com.wudaosoft.weixinsdk.utils.JsonUtils;
 
@@ -24,18 +24,24 @@ import com.wudaosoft.weixinsdk.utils.JsonUtils;
  */
 public class ArticlesApi {
 	
+	private WeiXinConfig wxConf;
+
+	public ArticlesApi(WeiXinConfig wxConf) {
+		super();
+		this.wxConf = wxConf;
+	}
 	
-	public static GlobalReturnCode articlesUpload(Articles articles) {
+	public GlobalReturnCode articlesUpload(Articles articles) {
 		
 		return articlesUploadByJsonString(JSON.toJSONString(articles, SerializerFeature.WriteNullStringAsEmpty));
 	}
 	
-	public static GlobalReturnCode articlesUploadToMaterial(Articles articles) {
+	public GlobalReturnCode articlesUploadToMaterial(Articles articles) {
 		
 		return articlesUploadToMaterialByJsonString(JSON.toJSONString(articles, SerializerFeature.WriteNullStringAsEmpty));
 	}
 	
-	public static GlobalReturnCode articlesUpdate(String mediaId, String index, Article article) {
+	public GlobalReturnCode articlesUpdate(String mediaId, String index, Article article) {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
@@ -46,34 +52,34 @@ public class ArticlesApi {
 		return articlesUpdateByJsonString(JSON.toJSONString(map, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullStringAsEmpty));
 	}
 	
-	public static GlobalReturnCode articlesUploadByJsonString(String jsonString) {
+	public GlobalReturnCode articlesUploadByJsonString(String jsonString) {
 		
-		String url = ApiUrlConstants.ARTICLES_UPLOAD+"?access_token="+CommonApi.getAccessToken();
-		
-		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, jsonString);
-		
-		return JsonUtils.buildSendResult(resp);
-	}
-	
-	public static GlobalReturnCode articlesUploadToMaterialByJsonString(String jsonString) {
-		
-		String url = ApiUrlConstants.ARTICLES_UPLOAD_TO_MATERIAL+"?access_token="+CommonApi.getAccessToken();
+		String url = ApiUrlConstants.ARTICLES_UPLOAD+"?access_token="+wxConf.getAccessToken();
 		
 		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, jsonString);
 		
 		return JsonUtils.buildSendResult(resp);
 	}
 	
-	public static GlobalReturnCode articlesUpdateByJsonString(String jsonString) {
+	public GlobalReturnCode articlesUploadToMaterialByJsonString(String jsonString) {
 		
-		String url = ApiUrlConstants.ARTICLES_MATERIAL_UPDATE_NEWS+"?access_token="+CommonApi.getAccessToken();
+		String url = ApiUrlConstants.ARTICLES_UPLOAD_TO_MATERIAL+"?access_token="+wxConf.getAccessToken();
 		
 		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, jsonString);
 		
 		return JsonUtils.buildSendResult(resp);
 	}
 	
-	public static GlobalReturnCode articlesSend(String mediaId) {
+	public GlobalReturnCode articlesUpdateByJsonString(String jsonString) {
+		
+		String url = ApiUrlConstants.ARTICLES_MATERIAL_UPDATE_NEWS+"?access_token="+wxConf.getAccessToken();
+		
+		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, jsonString);
+		
+		return JsonUtils.buildSendResult(resp);
+	}
+	
+	public GlobalReturnCode articlesSend(String mediaId) {
 		
 		Map<String, Object> filter = new HashMap<String, Object>();
 		
@@ -91,14 +97,14 @@ public class ArticlesApi {
 		data.put("msgtype", "mpnews");
 		
 		
-		String url = ApiUrlConstants.ARTICLES_SEND+"?access_token="+CommonApi.getAccessToken();
+		String url = ApiUrlConstants.ARTICLES_SEND+"?access_token="+wxConf.getAccessToken();
 		
 		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, JSON.toJSONString(data));
 		
 		return JsonUtils.buildSendResult(resp);
 	}
 	
-	public static GlobalReturnCode articlesPreviewToOpenId(String openId, String mediaId) {
+	public GlobalReturnCode articlesPreviewToOpenId(String openId, String mediaId) {
 		
 		Map<String, Object> mpnews = new HashMap<String, Object>();
 		
@@ -110,14 +116,14 @@ public class ArticlesApi {
 		data.put("mpnews", mpnews);
 		data.put("msgtype", "mpnews");
 		
-		String url = ApiUrlConstants.ARTICLES_PREVIEW+"?access_token="+CommonApi.getAccessToken();
+		String url = ApiUrlConstants.ARTICLES_PREVIEW+"?access_token="+wxConf.getAccessToken();
 		
 		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, JSON.toJSONString(data));
 		
 		return JsonUtils.buildSendResult(resp);
 	}
 	
-	public static GlobalReturnCode articlesPreviewToWxUsername(String wxUsername, String mediaId) {
+	public GlobalReturnCode articlesPreviewToWxUsername(String wxUsername, String mediaId) {
 		
 		Map<String, Object> mpnews = new HashMap<String, Object>();
 		
@@ -129,7 +135,7 @@ public class ArticlesApi {
 		data.put("mpnews", mpnews);
 		data.put("msgtype", "mpnews");
 		
-		String url = ApiUrlConstants.ARTICLES_PREVIEW+"?access_token="+CommonApi.getAccessToken();
+		String url = ApiUrlConstants.ARTICLES_PREVIEW+"?access_token="+wxConf.getAccessToken();
 		
 		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, JSON.toJSONString(data));
 		

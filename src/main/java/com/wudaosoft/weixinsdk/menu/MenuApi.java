@@ -10,8 +10,8 @@ package com.wudaosoft.weixinsdk.menu;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.wudaosoft.weixinsdk.ApiUrlConstants;
-import com.wudaosoft.weixinsdk.CommonApi;
 import com.wudaosoft.weixinsdk.GlobalReturnCode;
+import com.wudaosoft.weixinsdk.WeiXinConfig;
 import com.wudaosoft.weixinsdk.httpclient.HttpClientUtils;
 import com.wudaosoft.weixinsdk.utils.JsonUtils;
 
@@ -21,8 +21,12 @@ import com.wudaosoft.weixinsdk.utils.JsonUtils;
  * @date 2014年4月3日 下午5:30:31
  */
 public class MenuApi {
-
-	private MenuApi() {
+	
+	private WeiXinConfig wxConf;
+	
+	public MenuApi(WeiXinConfig wxConf) {
+		super();
+		this.wxConf = wxConf;
 	}
 	
 	/**
@@ -57,7 +61,7 @@ public class MenuApi {
 	 *	menu.addButton(view3);
 	 * @return GlobalReturnCode or null if ioerror
 	 */
-	public static GlobalReturnCode menuCreate(Menu menu){
+	public GlobalReturnCode menuCreate(Menu menu){
 		if(menu == null)
 			return null;
 		
@@ -66,11 +70,11 @@ public class MenuApi {
 		return menuCreateByJsonString(req.toString());
 	}
 	
-	public static GlobalReturnCode menuCreateByJsonString(String jsonString){
+	public GlobalReturnCode menuCreateByJsonString(String jsonString){
 		if(jsonString == null)
 			return null;
 		
-		String url = ApiUrlConstants.MENU_CREATE + "?access_token="+CommonApi.getAccessToken();
+		String url = ApiUrlConstants.MENU_CREATE + "?access_token="+wxConf.getAccessToken();
 		
 		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, jsonString);
 		
@@ -81,9 +85,9 @@ public class MenuApi {
 	 * 菜单查询
 	 * @return JSONObject or null if ioerror
 	 */
-	public static JSONObject menuGet(){
+	public JSONObject menuGet(){
 		
-		String url = ApiUrlConstants.MENU_GET + "?access_token="+CommonApi.getAccessToken();
+		String url = ApiUrlConstants.MENU_GET + "?access_token="+wxConf.getAccessToken();
 		
 		return HttpClientUtils.getForJsonResult(url);
 	}
@@ -92,9 +96,9 @@ public class MenuApi {
 	 * 菜单删除
 	 * @return GlobalReturnCode or null if ioerror
 	 */
-	public static GlobalReturnCode menuDelete(){
+	public GlobalReturnCode menuDelete(){
 		
-		String url = ApiUrlConstants.MENU_DELETE + "?access_token="+CommonApi.getAccessToken();
+		String url = ApiUrlConstants.MENU_DELETE + "?access_token="+wxConf.getAccessToken();
 		
 		JSONObject resp = HttpClientUtils.getForJsonResult(url);
 		return JsonUtils.buildSendResult(resp);

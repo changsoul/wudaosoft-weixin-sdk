@@ -14,7 +14,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.wudaosoft.weixinsdk.ApiUrlConstants;
-import com.wudaosoft.weixinsdk.CommonApi;
+import com.wudaosoft.weixinsdk.WeiXinConfig;
 import com.wudaosoft.weixinsdk.httpclient.HttpClientUtils;
 import com.wudaosoft.weixinsdk.utils.JsonUtils;
 
@@ -27,7 +27,11 @@ public class UserApi {
 	
 	private static final Logger log = LoggerFactory.getLogger(UserApi.class);
 
-	private UserApi() {
+	private WeiXinConfig wxConf;
+
+	public UserApi(WeiXinConfig wxConf) {
+		super();
+		this.wxConf = wxConf;
 	}
 	
 	/**
@@ -36,8 +40,8 @@ public class UserApi {
 	 * @param lang 返回国家地区语言版本，zh_CN 简体，zh_TW 繁体，en 英语
 	 * @return
 	 */
-	public static UserInfo userInfo(String openId, String lang){
-		String url = ApiUrlConstants.USER_INFO + "?access_token="+CommonApi.getAccessToken()+"&openid="+openId;
+	public UserInfo userInfo(String openId, String lang){
+		String url = ApiUrlConstants.USER_INFO + "?access_token="+wxConf.getAccessToken()+"&openid="+openId;
 		
 		if(lang != null )
 			url += "&lang="+lang;
@@ -54,11 +58,11 @@ public class UserApi {
 	 * @param nextOpenId
 	 * @return
 	 */
-	public static SubscribeList userGet(String nextOpenId){
+	public SubscribeList userGet(String nextOpenId){
 		if(nextOpenId == null)
 			nextOpenId = "";
 		
-		String url = ApiUrlConstants.USER_GET + "?access_token="+CommonApi.getAccessToken()+"&next_openid="+nextOpenId;
+		String url = ApiUrlConstants.USER_GET + "?access_token="+wxConf.getAccessToken()+"&next_openid="+nextOpenId;
 		
 		JSONObject resp = HttpClientUtils.getForJsonResult(url);
 

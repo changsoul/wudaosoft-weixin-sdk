@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wudaosoft.weixinsdk.ApiUrlConstants;
-import com.wudaosoft.weixinsdk.CommonApi;
+import com.wudaosoft.weixinsdk.WeiXinConfig;
 import com.wudaosoft.weixinsdk.httpclient.HttpClientUtils;
 import com.wudaosoft.weixinsdk.utils.JsonUtils;
 
@@ -28,12 +28,16 @@ import com.wudaosoft.weixinsdk.utils.JsonUtils;
  */
 public class Oauth2Api {
 	
-	private static final Logger log = LoggerFactory.getLogger(Oauth2Api.class);
+	private final static Logger log = LoggerFactory.getLogger(Oauth2Api.class);
 	
-	private static final String SNSAPI_BASE = "snsapi_base";
-	private static final String SNSAPI_USERINFO = "snsapi_userinfo";
+	private final static String SNSAPI_BASE = "snsapi_base";
+	private final static String SNSAPI_USERINFO = "snsapi_userinfo";
 
-	private Oauth2Api() {
+	private WeiXinConfig wxConf;
+
+	public Oauth2Api(WeiXinConfig wxConf) {
+		super();
+		this.wxConf = wxConf;
 	}
 	
 	/**
@@ -43,7 +47,7 @@ public class Oauth2Api {
 	 * @param state 重定向后会带上state参数，开发者可以填写a-zA-Z0-9的参数值
 	 * @return
 	 */
-	public static String buildBaseOauth2Link(String linkText, String redirectUri, String state) {
+	public String buildBaseOauth2Link(String linkText, String redirectUri, String state) {
 		return buildOauth2Link(linkText, redirectUri, SNSAPI_BASE, state);
 	}
 	
@@ -54,7 +58,7 @@ public class Oauth2Api {
 	 * @param state 重定向后会带上state参数，开发者可以填写a-zA-Z0-9的参数值
 	 * @return
 	 */
-	public static String buildUserinfoOauth2Link(String linkText, String redirectUri, String state) {
+	public String buildUserinfoOauth2Link(String linkText, String redirectUri, String state) {
 		return buildOauth2Link(linkText, redirectUri, SNSAPI_USERINFO, state);
 	}
 	
@@ -65,13 +69,13 @@ public class Oauth2Api {
 	 * @param state
 	 * @return
 	 */
-	private static String buildOauth2Link(String linkText, String redirectUri, String scope, String state) {
+	private String buildOauth2Link(String linkText, String redirectUri, String scope, String state) {
 		if(state == null)
 			state = "";
 		
 		StringBuilder link = new StringBuilder();
 		try {
-			link.append("<a href=\"").append(ApiUrlConstants.OAUTH2_LINK+"?appid="+CommonApi.APP_ID)
+			link.append("<a href=\"").append(ApiUrlConstants.OAUTH2_LINK+"?appid="+wxConf.getAppId())
 			.append("&redirect_uri="+URLEncoder.encode(redirectUri, "UTF-8"))
 			.append("&response_type=code")
 			.append("&scope="+scope)
@@ -90,10 +94,10 @@ public class Oauth2Api {
 	 * @param code
 	 * @return
 	 */
-	public static Oauth2AccessToken getOauth2AccessToken(String code) {
+	public Oauth2AccessToken getOauth2AccessToken(String code) {
 		Map<String, String> params = new HashMap<String, String>(4);
-		params.put("appid", CommonApi.APP_ID);
-		params.put("secret", CommonApi.APPSECRET);
+		params.put("appid", wxConf.getAppId());
+		params.put("secret", wxConf.getAppsecret());
 		params.put("code", code);
 		params.put("grant_type", "authorization_code");
 		
@@ -107,9 +111,9 @@ public class Oauth2Api {
 	 * @param refreshToken 填写通过access_token获取到的refresh_token参数
 	 * @return
 	 */
-	public static Oauth2AccessToken refreshOauth2AccessToken(String refreshToken) {
+	public Oauth2AccessToken refreshOauth2AccessToken(String refreshToken) {
 		Map<String, String> params = new HashMap<String, String>(4);
-		params.put("appid", CommonApi.APP_ID);
+		params.put("appid", wxConf.getAppId());
 		params.put("refresh_token", refreshToken);
 		params.put("grant_type", "refresh_token");
 		
@@ -125,7 +129,7 @@ public class Oauth2Api {
 	 * @param lang 返回国家地区语言版本，zh_CN 简体，zh_TW 繁体，en 英语
 	 * @return
 	 */
-	public static Oauth2UserInfo oauth2UserInfo(String oauth2AccessToken,String openId, String lang){
+	public Oauth2UserInfo oauth2UserInfo(String oauth2AccessToken,String openId, String lang){
 		String url = ApiUrlConstants.OAUTH2_USERINFO + "?access_token="+oauth2AccessToken+"&openid="+openId;
 		
 		if(lang != null )

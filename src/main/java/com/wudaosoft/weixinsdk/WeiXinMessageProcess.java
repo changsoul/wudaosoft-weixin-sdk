@@ -11,7 +11,6 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -41,29 +40,26 @@ import com.wudaosoft.weixinsdk.xml.XmlObject;
 public class WeiXinMessageProcess {
 	
 	private static final Logger log = LoggerFactory.getLogger(WeiXinMessageProcess.class);
+	
 	private static final String ENCRYPT_TYPE_AES = "aes";
 	
-	private static WeiXinMessageHandler messageHandler;
+	private WeiXinMessageHandler messageHandler;
+	private WeiXinConfig wxConf;
 	
 	private WeiXinMessageProcess() {
 	}
 
-	public static void setWeixinConfig(WeiXinConfig config) throws AesException{
-		
-		if (config.getEncodingAesKey().length() != 43) {
-			throw new AesException(AesException.IllegalAesKey);
-		}
-		
-		CommonApi.AES_KEY = Base64.decodeBase64(config.getEncodingAesKey() + "=");
-		CommonApi.WEI_XIN_ACCOUNT = config.getAccount();
-		CommonApi.APP_ID = config.getAppId();
-		CommonApi.APPSECRET = config.getAppsecret();
-		CommonApi.TOKEN = config.getToken();
-		CommonApi.ACCESS_TOKEN_URL = ApiUrlConstants.ACCESS_TOKEN + "?grant_type=client_credential&appid=" + CommonApi.APP_ID + "&secret=" + CommonApi.APPSECRET;
+	public void setWeixinConfig(WeiXinConfig config) {
+		this.wxConf = config;
 	}
 	
-	public static void setMessageHandler(WeiXinMessageHandler messageHandler) {
-		WeiXinMessageProcess.messageHandler = messageHandler;
+	public void setWeixinConfig(WeiXinConfig config, WeiXinMessageHandler messageHandler) {
+		this.wxConf = config;
+		this.messageHandler = messageHandler;
+	}
+	
+	public void setMessageHandler(WeiXinMessageHandler messageHandler) {
+		this.messageHandler = messageHandler;
 	}
 
 	/**
@@ -77,7 +73,8 @@ public class WeiXinMessageProcess {
 	 * @throws WeiXinException
 	 * @throws AesException 
 	 */
-	public static String processRequest(HttpServletRequest request) throws IOException, WeiXinException, AesException{
+	public String processRequest(HttpServletRequest request) throws IOException, WeiXinException, AesException{
+		
 		String respXML = "";
 		
 		String signature = request.getParameter("signature");
@@ -87,7 +84,7 @@ public class WeiXinMessageProcess {
 		String msgSignature = request.getParameter("msg_signature");
 		
 		if(!ENCRYPT_TYPE_AES.equals(encryptType)) {
-			if(!CommonApi.checkSignature(signature, timestamp, nonce)){
+			if(!CommonApi.checkSignature(wxConf.getToken(), signature, timestamp, nonce)){
 				return respXML;
 			}
 		}
@@ -104,7 +101,7 @@ public class WeiXinMessageProcess {
 				if(fromEncryptMsg == null || fromEncryptMsg.trim().length() == 0)
 					return respXML;
 				
-				String decryptedMsg = WXBizMsgCrypt.decryptMsg(msgSignature, timestamp, nonce, fromEncryptMsg);
+				String decryptedMsg = WXBizMsgCrypt.decryptMsg(msgSignature, timestamp, nonce, fromEncryptMsg, wxConf);
 				
 				req = XmlObject.fromDocument(XmlUtils.readXml(decryptedMsg));
 			}
@@ -156,7 +153,7 @@ public class WeiXinMessageProcess {
 			
 			if(ENCRYPT_TYPE_AES.equals(encryptType) && respXML != null && respXML.trim().length() != 0) {
 				
-				respXML = WXBizMsgCrypt.encryptMsg(respXML, CommonApi.create_timestamp(), CommonApi.create_nonce_str());
+				respXML = WXBizMsgCrypt.encryptMsg(respXML, CommonApi.create_timestamp(), CommonApi.create_nonce_str(), wxConf);
 			}
 		}
 		
@@ -168,7 +165,7 @@ public class WeiXinMessageProcess {
 	 * @param ReceiveEventMsg
 	 * @return
 	 */
-	private static String processEventMsg(ReceiveEventMsg eventMsg) {
+	private String processEventMsg(ReceiveEventMsg eventMsg) {
 		
 		String respXML = "";
 		

@@ -14,6 +14,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.wudaosoft.weixinsdk.ApiUrlConstants;
 import com.wudaosoft.weixinsdk.CommonApi;
 import com.wudaosoft.weixinsdk.GlobalReturnCode;
+import com.wudaosoft.weixinsdk.WeiXinConfig;
 import com.wudaosoft.weixinsdk.httpclient.HttpClientUtils;
 import com.wudaosoft.weixinsdk.type.MediaType;
 import com.wudaosoft.weixinsdk.utils.JsonUtils;
@@ -25,48 +26,54 @@ import com.wudaosoft.weixinsdk.utils.JsonUtils;
  */
 public class MaterialApi {
 	
+	private WeiXinConfig wxConf;
 	
-	public static String addImageMaterial(File media) {
+	public MaterialApi(WeiXinConfig wxConf) {
+		super();
+		this.wxConf = wxConf;
+	}
+
+	public String addImageMaterial(File media) {
 		
-		return CommonApi.mediaUploadForever(MediaType.image, media);
+		return CommonApi.mediaUploadForever(MediaType.image, media, wxConf);
 	}
 	
-	public static String addImageMaterialThumb(File media) {
+	public String addImageMaterialThumb(File media) {
 		
-		return CommonApi.mediaUploadForever(MediaType.thumb, media);
+		return CommonApi.mediaUploadForever(MediaType.thumb, media, wxConf);
 	}
 	
-	public static GlobalReturnCode getMaterial(String mediaId) {
+	public GlobalReturnCode getMaterial(String mediaId) {
 		
 		Map<String, Object> data = new HashMap<String, Object>();
 		
 		data.put("media_id", mediaId);
 		
-		String url = ApiUrlConstants.GET_MATERIAL+"?access_token="+CommonApi.getAccessToken();
+		String url = ApiUrlConstants.GET_MATERIAL+"?access_token="+wxConf.getAccessToken();
 		
 		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, JSON.toJSONString(data));
 		
 		return JsonUtils.buildSendResult(resp);
 	}
 	
-	public static GlobalReturnCode delMaterial(String mediaId) {
+	public GlobalReturnCode delMaterial(String mediaId) {
 		
 		Map<String, Object> data = new HashMap<String, Object>();
 		
 		data.put("media_id", mediaId);
 		
-		String url = ApiUrlConstants.DEL_MATERIAL+"?access_token="+CommonApi.getAccessToken();
+		String url = ApiUrlConstants.DEL_MATERIAL+"?access_token="+wxConf.getAccessToken();
 		
 		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, JSON.toJSONString(data));
 		
 		return JsonUtils.buildSendResult(resp);
 	}
 	
-	public static GlobalReturnCode getMaterialCount() {
+	public GlobalReturnCode getMaterialCount() {
 		
 		Map<String, String> params = new HashMap<String, String>();
 		
-		params.put("access_token", CommonApi.getAccessToken());
+		params.put("access_token", wxConf.getAccessToken());
 		
 		String url = ApiUrlConstants.GET_MATERIAL_COUNT;
 		
@@ -75,7 +82,7 @@ public class MaterialApi {
 		return JsonUtils.buildSendResult(resp);
 	}
 	
-	public static GlobalReturnCode batchgetMaterial(MediaType type, int offset, int count) {
+	public GlobalReturnCode batchgetMaterial(MediaType type, int offset, int count) {
 		
 		Map<String, Object> data = new HashMap<String, Object>();
 		
@@ -83,7 +90,7 @@ public class MaterialApi {
 		data.put("offset", offset);
 		data.put("count", count);
 		
-		String url = ApiUrlConstants.BATCHGET_MATERIAL+"?access_token="+CommonApi.getAccessToken();
+		String url = ApiUrlConstants.BATCHGET_MATERIAL+"?access_token="+wxConf.getAccessToken();
 		
 		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, JSON.toJSONString(data));
 		
