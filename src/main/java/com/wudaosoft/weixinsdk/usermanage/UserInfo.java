@@ -7,6 +7,8 @@
  
 package com.wudaosoft.weixinsdk.usermanage;
 
+import java.util.List;
+
 import com.wudaosoft.weixinsdk.GlobalReturnCode;
 
 /**
@@ -26,7 +28,11 @@ public class UserInfo extends GlobalReturnCode {
 	private String country;
 	private String headimgurl;
 	private Integer subscribe_time;
-
+	private String unionid;
+	private String remark;
+	private String groupid;
+	private List<String> tagid_list;
+	
 	public UserInfo() {
 	}
 
@@ -180,16 +186,44 @@ public class UserInfo extends GlobalReturnCode {
 		this.subscribe_time = subscribe_time;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
+	public String getUnionid() {
+		return unionid;
+	}
+
+	public void setUnionid(String unionid) {
+		this.unionid = unionid;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public String getGroupid() {
+		return groupid;
+	}
+
+	public void setGroupid(String groupid) {
+		this.groupid = groupid;
+	}
+
+	public List<String> getTagid_list() {
+		return tagid_list;
+	}
+
+	public void setTagid_list(List<String> tagid_list) {
+		this.tagid_list = tagid_list;
+	}
+
 	@Override
 	public String toString() {
-		return "UserInfo [subscribe=" + subscribe + ", openid=" + openid
-				+ ", nickname=" + nickname + ", sex=" + sex + ", language="
-				+ language + ", city=" + city + ", province=" + province
-				+ ", country=" + country + ", headimgurl=" + headimgurl
-				+ ", subscribe_time=" + subscribe_time + "]";
+		return "UserInfo [subscribe=" + subscribe + ", openid=" + openid + ", nickname=" + nickname + ", sex=" + sex
+				+ ", language=" + language + ", city=" + city + ", province=" + province + ", country=" + country
+				+ ", headimgurl=" + headimgurl + ", subscribe_time=" + subscribe_time + ", unionid=" + unionid
+				+ ", remark=" + remark + ", groupid=" + groupid + ", tagid_list=" + tagid_list + "]";
 	}
-	
+
 }

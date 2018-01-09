@@ -25,6 +25,7 @@ public class Oauth2UserInfo extends GlobalReturnCode {
 	private String province;
 	private String country;
 	private String headimgurl;
+	private String unionid;
 	private List<String> privilege;
 
 	public Oauth2UserInfo() {
@@ -135,6 +136,14 @@ public class Oauth2UserInfo extends GlobalReturnCode {
 		this.headimgurl = headimgurl;
 	}
 
+	public String getUnionid() {
+		return unionid;
+	}
+
+	public void setUnionid(String unionid) {
+		this.unionid = unionid;
+	}
+
 	/**
 	 * 用户特权信息，json 数组，如微信沃卡用户为（chinaunicom）
 	 * @return
@@ -149,10 +158,9 @@ public class Oauth2UserInfo extends GlobalReturnCode {
 
 	@Override
 	public String toString() {
-		return "Oauth2UserInfo [openid=" + openid + ", nickname=" + nickname
-				+ ", sex=" + sex + ", city=" + city + ", province=" + province
-				+ ", country=" + country + ", headimgurl=" + headimgurl
-				+ ", privilege=" + privilege + "]";
+		return "Oauth2UserInfo [openid=" + openid + ", nickname=" + nickname + ", sex=" + sex + ", city=" + city
+				+ ", province=" + province + ", country=" + country + ", headimgurl=" + headimgurl + ", unionid="
+				+ unionid + ", privilege=" + privilege + "]";
 	}
 
 }
