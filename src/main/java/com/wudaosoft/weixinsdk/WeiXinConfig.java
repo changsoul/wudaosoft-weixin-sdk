@@ -1,10 +1,18 @@
-/* Copyright(c)2010-2014 WUDAOSOFT.COM
+/**
+ *    Copyright 2009-2018 Wudao Software Studio(wudaosoft.com)
  * 
- * Email:changsoul.wu@gmail.com
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
  * 
- * QQ:275100589
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
  */
-
 package com.wudaosoft.weixinsdk;
 
 import java.util.concurrent.locks.Lock;
@@ -13,6 +21,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wudaosoft.weixinsdk.aes.AesException;
@@ -46,12 +55,19 @@ public class WeiXinConfig {
 	private long jsAPITicketSecond = System.currentTimeMillis();
 	private byte[] aesKey;
 
-	public WeiXinConfig() {
+	protected WeiXinConfig() {
+	}
+	
+	public WeiXinConfig(String appId, String appsecret) {
+		Assert.hasText(appId, "'appId' must not be empty");
+		Assert.hasText(appsecret, "'appsecret' must not be empty");
+		this.appId = appId;
+		this.appsecret = appsecret;
 	}
 
 	public WeiXinConfig(String appId, String appsecret, String token, String encodingAesKey) throws AesException {
-		this.appId = appId;
-		this.appsecret = appsecret;
+		this(appId, appsecret);
+		Assert.hasText(token, "'token' must not be empty");
 		this.token = token;
 		this.encodingAesKey = encodingAesKey;
 
@@ -126,7 +142,7 @@ public class WeiXinConfig {
 
 						expiresIn = (data.getIntValue("expires_in") - 60) * 1000;
 					} else {
-						log.info("getAccessToken error:" + data);
+						log.debug("getAccessToken error:" + data);
 					}
 					tokenSecond = now;
 				}
@@ -159,7 +175,7 @@ public class WeiXinConfig {
 
 						jsAPITicketExpiresIn = (data.getIntValue("expires_in") - 60) * 1000;
 					} else {
-						log.info("getJsAPITicket error:" + data);
+						log.debug("getJsAPITicket error:" + data);
 					}
 					jsAPITicketSecond = now;
 				}

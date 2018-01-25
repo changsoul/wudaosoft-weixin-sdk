@@ -38,6 +38,10 @@ public class UserGroupApi {
 		this.wxConf = wxConf;
 	}
 	
+	public WeiXinConfig getWeiXinConfig() {
+		return this.wxConf;
+	}
+	
 	/**
 	 * 创建分组
 	 * @param name 组名
@@ -106,7 +110,7 @@ public class UserGroupApi {
 					}
 					return groupList;
 				} else {
-					log.info("getGroups error:"+resp);
+					log.error("getGroups error:"+resp);
 				}
 			}
 		} catch (JSONException e) {
@@ -132,7 +136,7 @@ public class UserGroupApi {
 			if(resp.containsKey("groupid")) {
 				return resp.getIntValue("groupid");
 			}else{
-				log.info("getGroupId error:"+resp);
+				log.error("getGroupId error:"+resp);
 			}
 		}
 		

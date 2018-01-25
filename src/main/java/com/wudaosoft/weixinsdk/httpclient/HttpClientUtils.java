@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLException;
@@ -283,6 +282,8 @@ public class HttpClientUtils {
 	                }
 		        };
 				
+		        new IdleConnectionMonitorThread(connManager).start();
+		        
 				httpClient = HttpClients.custom()
 						.setConnectionManager(connManager)
 						.setKeepAliveStrategy(myStrategy)
@@ -804,19 +805,6 @@ public class HttpClientUtils {
 		}
 		
 		return new UrlEncodedFormEntity(parameters, Consts.UTF_8);
-	}
-	
-	/**
-	 * 关闭过期连接
-	 */
-	public static void closeExpiredConnections() {
-		if(connManager != null) {
-			// Close expired connections
-			connManager.closeExpiredConnections();
-	        // Optionally, close connections
-	        // that have been idle longer than 5 sec
-			connManager.closeIdleConnections(39, TimeUnit.SECONDS);
-		}
 	}
 
 }

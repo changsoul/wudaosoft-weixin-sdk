@@ -33,6 +33,10 @@ public class CustomMsgSender {
 		super();
 		this.wxConf = wxConf;
 	}
+	
+	public WeiXinConfig getWeiXinConfig() {
+		return this.wxConf;
+	}
 
 	/**
 	 * 发送文本消息

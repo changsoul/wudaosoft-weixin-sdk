@@ -29,6 +29,10 @@ public class MenuApi {
 		this.wxConf = wxConf;
 	}
 	
+	public WeiXinConfig getWeiXinConfig() {
+		return this.wxConf;
+	}
+	
 	/**
 	 * 创建菜单
 	 * 

@@ -37,6 +37,10 @@ public class QRCodeApi {
 		this.wxConf = wxConf;
 	}
 	
+	public WeiXinConfig getWeiXinConfig() {
+		return this.wxConf;
+	}
+	
 	/**
 	 * 生成永久二维码
 	 * 无过期时间，数量较少（目前参数只支持1--100000）

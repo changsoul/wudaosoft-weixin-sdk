@@ -31,6 +31,10 @@ public class ArticlesApi {
 		this.wxConf = wxConf;
 	}
 	
+	public WeiXinConfig getWeiXinConfig() {
+		return this.wxConf;
+	}
+	
 	public GlobalReturnCode articlesUpload(Articles articles) {
 		
 		return articlesUploadByJsonString(JSON.toJSONString(articles, SerializerFeature.WriteNullStringAsEmpty));

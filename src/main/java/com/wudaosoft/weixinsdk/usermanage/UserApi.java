@@ -34,6 +34,10 @@ public class UserApi {
 		this.wxConf = wxConf;
 	}
 	
+	public WeiXinConfig getWeiXinConfig() {
+		return this.wxConf;
+	}
+	
 	/**
 	 * 获取用户基本信息
 	 * @param openId 普通用户的标识，对当前公众号唯一

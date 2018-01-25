@@ -33,6 +33,10 @@ public class MaterialApi {
 		this.wxConf = wxConf;
 	}
 
+	public WeiXinConfig getWeiXinConfig() {
+		return this.wxConf;
+	}
+	
 	public String addImageMaterial(File media) {
 		
 		return CommonApi.mediaUploadForever(MediaType.image, media, wxConf);

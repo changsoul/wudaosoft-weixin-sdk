@@ -1,10 +1,18 @@
-/* Copyright(c)2010-2014 WUDAOSOFT.COM
+/**
+ *    Copyright 2009-2018 Wudao Software Studio(wudaosoft.com)
  * 
- * Email:changsoul.wu@gmail.com
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
  * 
- * QQ:275100589
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
  */
-
 package com.wudaosoft.weixinsdk;
 
 import java.io.File;
@@ -40,9 +48,8 @@ import com.wudaosoft.weixinsdk.utils.DigestUtils;
 import com.wudaosoft.weixinsdk.utils.StringUtils;
 
 /**
- * <p>
+ * 
  * 微信公共API
- * </p>
  * 
  * @author Changsoul.Wu
  * @date 2014年3月28日 下午3:44:08
@@ -131,10 +138,10 @@ public class CommonApi {
 
 				if (rs.containsKey("media_id")) {
 					String mediaId = rs.getString("media_id");
-					log.info("Media upload success! mediaId:" + mediaId);
+					log.debug("Media upload success! mediaId:" + mediaId);
 					return mediaId;
 				} else {
-					log.info("Media upload error:" + resp);
+					log.debug("Media upload error:" + resp);
 				}
 			} catch (JSONException e) {
 				log.error(e.getMessage(), e);
@@ -154,10 +161,10 @@ public class CommonApi {
 
 				if (rs.containsKey("media_id")) {
 					String mediaId = rs.getString("media_id");
-					log.info("Media upload forever upload success! mediaId:" + mediaId);
+					log.debug("Media upload forever upload success! mediaId:" + mediaId);
 					return mediaId;
 				} else {
-					log.info("Media upload forever error:" + resp);
+					log.debug("Media upload forever error:" + resp);
 				}
 			} catch (JSONException e) {
 				log.error(e.getMessage(), e);
@@ -183,10 +190,10 @@ public class CommonApi {
 
 				if (rs.containsKey("url")) {
 					String mediaUrl = rs.getString("url");
-					log.info("Media upload for article success! url:" + mediaUrl);
+					log.debug("Media upload for article success! url:" + mediaUrl);
 					return mediaUrl;
 				} else {
-					log.info("Media upload for article error:" + resp);
+					log.debug("Media upload for article error:" + resp);
 				}
 			} catch (JSONException e) {
 				log.error(e.getMessage(), e);

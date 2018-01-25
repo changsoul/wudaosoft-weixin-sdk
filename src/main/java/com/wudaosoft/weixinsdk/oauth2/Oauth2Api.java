@@ -40,6 +40,10 @@ public class Oauth2Api {
 		this.wxConf = wxConf;
 	}
 	
+	public WeiXinConfig getWeiXinConfig() {
+		return this.wxConf;
+	}
+	
 	/**
 	 * 不弹出授权页面，直接跳转，只能获取用户openid
 	 * @param linkText 链接文字
