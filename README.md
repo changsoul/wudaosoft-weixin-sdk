@@ -49,8 +49,7 @@ public class Application {
 }
 ```
 
-Then you can use the Weixin Official API.
-
+Now, you can use the Weixin Official API.
 For example, to get OAuth2 Userinfo data would be:
 ```java
 package com.example.service;
