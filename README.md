@@ -49,7 +49,7 @@ public class Application {
 }
 ```
 
-Now, you can use the Weixin Official API.
+Now, you can use the Weixin Official APIs.
 
 For example, to get OAuth2 Userinfo data would be:
 ```java
@@ -89,6 +89,16 @@ public class WeixinService {
 
 }
 ```
+
+Here’s APIs list:
+- ArticlesApi
+- CustomMsgSender
+- MaterialApi
+- MenuApi
+- OAuth2Api
+- QRCodeApi
+- UserApi
+- UserGroupApi
 
 ### *License*
 
