@@ -99,6 +99,7 @@ Here’s APIs list:
 - QRCodeApi
 - UserApi
 - UserGroupApi
+- CommonApi for static way
 
 ### *License*
 
