@@ -90,7 +90,7 @@ public class WeixinService {
 }
 ```
 
-Here’s APIs list:
+Here are APIs list:
 - ArticlesApi
 - CustomMsgSender
 - MaterialApi
