@@ -2,7 +2,7 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.wudaosoft/wudaosoft-weixin-sdk/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.wudaosoft/wudaosoft-weixin-sdk/)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
-Wudaosoft Weixin SDK.
+Wudaosoft Weixin Official SDK.
 
 ## Download
 
@@ -27,7 +27,7 @@ compile 'com.wudaosoft:wudaosoft-weixin-sdk:2.0.3'
 
 ## Getting started
 
-You need to add the `@EnableWeiXinOfficial` annotation to one of your `@Configuration` classes, the weixin official enabled.
+You need to add the `@EnableWeiXinOfficial` annotation to one of your `@Configuration` classes, the Weixin Official API be enabled.
 ```java
 package com.example.myproject;
 
@@ -49,7 +49,7 @@ public class Application {
 }
 ```
 
-Then you can use the weixin API.
+Then you can use the Weixin Official API.
 ```java
 package com.example.service;
 
@@ -68,19 +68,19 @@ public class WeixinService {
 	public void doAuth(String code, String state) {
 		Oauth2AccessToken authToken = oauth2Api.getOauth2AccessToken(code);
     	
-    	if (authToken.getErrcode() != 0) {
-    		// throw some error
-    	}
+    		if (authToken.getErrcode() != 0) {
+    			// throw some error
+    		}
     	
-    	Oauth2UserInfo userInfo = oauth2Api.oauth2UserInfo(authToken.getAccess_token(), authToken.getOpenid(), "zh_CN");
+    		Oauth2UserInfo userInfo = oauth2Api.oauth2UserInfo(authToken.getAccess_token(), authToken.getOpenid(), "zh_CN");
     	
-    	if (userInfo.getErrcode() != 0) {
-    		// throw some error
-    	}
+    		if (userInfo.getErrcode() != 0) {
+    			// throw some error
+    		}
     	
-    	System.out.println(String.format("nickname: %s", userInfo.getNickname()));
+    		System.out.println(String.format("nickname: %s", userInfo.getNickname()));
     	
-    	// do something you want ...
+    		// do something you want ...
 	}
 
 	// ...
