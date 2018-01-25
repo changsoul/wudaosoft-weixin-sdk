@@ -26,16 +26,16 @@ import com.wudaosoft.weixinsdk.utils.JsonUtils;
  * @author Changsoul.Wu
  * @date 2014年4月9日 上午9:47:32
  */
-public class Oauth2Api {
+public class OAuth2Api {
 	
-	private final static Logger log = LoggerFactory.getLogger(Oauth2Api.class);
+	private final static Logger log = LoggerFactory.getLogger(OAuth2Api.class);
 	
 	private final static String SNSAPI_BASE = "snsapi_base";
 	private final static String SNSAPI_USERINFO = "snsapi_userinfo";
 
 	private WeiXinConfig wxConf;
 
-	public Oauth2Api(WeiXinConfig wxConf) {
+	public OAuth2Api(WeiXinConfig wxConf) {
 		super();
 		this.wxConf = wxConf;
 	}
@@ -98,7 +98,7 @@ public class Oauth2Api {
 	 * @param code
 	 * @return
 	 */
-	public Oauth2AccessToken getOauth2AccessToken(String code) {
+	public OAuth2AccessToken getOauth2AccessToken(String code) {
 		Map<String, String> params = new HashMap<String, String>(4);
 		params.put("appid", wxConf.getAppId());
 		params.put("secret", wxConf.getAppsecret());
@@ -107,7 +107,7 @@ public class Oauth2Api {
 		
 		JSONObject resp = HttpClientUtils.getForJsonResult(ApiUrlConstants.OAUTH2_ACCESS_TOKEN, params);
 		
-		return JsonUtils.buildRequestResult(resp, Oauth2AccessToken.class);
+		return JsonUtils.buildRequestResult(resp, OAuth2AccessToken.class);
 	}
 	
 	/**
@@ -115,7 +115,7 @@ public class Oauth2Api {
 	 * @param refreshToken 填写通过access_token获取到的refresh_token参数
 	 * @return
 	 */
-	public Oauth2AccessToken refreshOauth2AccessToken(String refreshToken) {
+	public OAuth2AccessToken refreshOauth2AccessToken(String refreshToken) {
 		Map<String, String> params = new HashMap<String, String>(4);
 		params.put("appid", wxConf.getAppId());
 		params.put("refresh_token", refreshToken);
@@ -123,7 +123,7 @@ public class Oauth2Api {
 		
 		JSONObject resp = HttpClientUtils.getForJsonResult(ApiUrlConstants.OAUTH2_REFRESH_TOKEN, params);
 		
-		return JsonUtils.buildRequestResult(resp, Oauth2AccessToken.class);
+		return JsonUtils.buildRequestResult(resp, OAuth2AccessToken.class);
 	}
 	
 	/**
@@ -133,7 +133,7 @@ public class Oauth2Api {
 	 * @param lang 返回国家地区语言版本，zh_CN 简体，zh_TW 繁体，en 英语
 	 * @return
 	 */
-	public Oauth2UserInfo oauth2UserInfo(String oauth2AccessToken,String openId, String lang){
+	public OAuth2UserInfo oAuth2UserInfo(String oauth2AccessToken,String openId, String lang){
 		String url = ApiUrlConstants.OAUTH2_USERINFO + "?access_token="+oauth2AccessToken+"&openid="+openId;
 		
 		if(lang != null )
@@ -141,7 +141,7 @@ public class Oauth2Api {
 		
 		JSONObject resp = HttpClientUtils.getForJsonResult(url);
 
-		return JsonUtils.buildRequestResult(resp, Oauth2UserInfo.class);
+		return JsonUtils.buildRequestResult(resp, OAuth2UserInfo.class);
 	}
 
 }

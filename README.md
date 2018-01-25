@@ -16,14 +16,78 @@ Wudaosoft Weixin SDK.
 <dependency>
     <groupId>com.wudaosoft</groupId>
     <artifactId>wudaosoft-weixin-sdk</artifactId>
-    <version>2.0.2</version>
+    <version>2.0.3</version>
 </dependency>
 ```
 ## Gradle via JCenter
 
 ``` groovy
-compile 'com.wudaosoft:wudaosoft-weixin-sdk:2.0.2'
+compile 'com.wudaosoft:wudaosoft-weixin-sdk:2.0.3'
 ```
+
+## Getting started
+
+You need to add the `@EnableWeiXinOfficial` annotation to one of your `@Configuration` classes, the weixin official enabled.
+```java
+package com.example.myproject;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import com.wudaosoft.weixinsdk.annotation.EnableWeiXinOfficial;
+
+@Configuration
+@EnableWeiXinOfficial
+public class Application {
+
+	@Bean
+	public WeiXinConfig weiXinConfig() {
+		return new WeiXinConfig("appid", "appsecret");
+	}
+	
+	// ...
+
+}
+```
+
+Then you can use the weixin API.
+```java
+package com.example.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.wudaosoft.weixinsdk.oauth2.Oauth2AccessToken;
+import com.wudaosoft.weixinsdk.oauth2.Oauth2Api;
+import com.wudaosoft.weixinsdk.oauth2.Oauth2UserInfo;
+
+@Service
+public class WeixinService {
+
+	@Autowired
+	private OAuth2Api oauth2Api;
+
+	public void doAuth(String code, String state) {
+		Oauth2AccessToken authToken = oauth2Api.getOauth2AccessToken(code);
+    	
+    	if (authToken.getErrcode() != 0) {
+    		// throw some error
+    	}
+    	
+    	Oauth2UserInfo userInfo = oauth2Api.oauth2UserInfo(authToken.getAccess_token(), authToken.getOpenid(), "zh_CN");
+    	
+    	if (userInfo.getErrcode() != 0) {
+    		// throw some error
+    	}
+    	
+    	System.out.println(String.format("nickname: %s", userInfo.getNickname()));
+    	
+    	// do something you want ...
+	}
+
+	// ...
+
+}
+```
+
 ### *License*
 
 wudaosoft-weixin-sdk is released under the [Apache 2.0 license](LICENSE).

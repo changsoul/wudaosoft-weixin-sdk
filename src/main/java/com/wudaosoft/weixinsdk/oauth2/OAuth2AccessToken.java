@@ -14,7 +14,7 @@ import com.wudaosoft.weixinsdk.GlobalReturnCode;
  * @author Changsoul.Wu
  * @date 2014年4月9日 上午10:07:28
  */
-public class Oauth2AccessToken extends GlobalReturnCode {
+public class OAuth2AccessToken extends GlobalReturnCode {
 	
 	private String access_token;
 	private String refresh_token;
@@ -22,7 +22,7 @@ public class Oauth2AccessToken extends GlobalReturnCode {
 	private String scope;
 	private int expires_in;
 
-	public Oauth2AccessToken() {
+	public OAuth2AccessToken() {
 	}
 
 	public String getAccess_token() {

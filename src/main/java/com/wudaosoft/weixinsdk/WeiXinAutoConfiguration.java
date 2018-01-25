@@ -22,7 +22,7 @@ import com.wudaosoft.weixinsdk.material.MaterialApi;
 import com.wudaosoft.weixinsdk.menu.MenuApi;
 import com.wudaosoft.weixinsdk.message.send.CustomMsgSender;
 import com.wudaosoft.weixinsdk.message.send.article.ArticlesApi;
-import com.wudaosoft.weixinsdk.oauth2.Oauth2Api;
+import com.wudaosoft.weixinsdk.oauth2.OAuth2Api;
 import com.wudaosoft.weixinsdk.qrcode.QRCodeApi;
 import com.wudaosoft.weixinsdk.usermanage.UserApi;
 import com.wudaosoft.weixinsdk.usermanage.UserGroupApi;
@@ -55,8 +55,8 @@ public class WeiXinAutoConfiguration {
 	}
 
 	@Bean
-	public Oauth2Api officialOauth2Api(WeiXinConfig officialWeixinConf) {
-		return new Oauth2Api(officialWeixinConf);
+	public OAuth2Api officialOAuth2Api(WeiXinConfig officialWeixinConf) {
+		return new OAuth2Api(officialWeixinConf);
 	}
 
 	@Bean

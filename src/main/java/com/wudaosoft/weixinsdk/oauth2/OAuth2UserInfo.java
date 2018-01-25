@@ -16,7 +16,7 @@ import com.wudaosoft.weixinsdk.GlobalReturnCode;
  * @author Changsoul.Wu
  * @date 2014年4月2日 下午1:26:30
  */
-public class Oauth2UserInfo extends GlobalReturnCode {
+public class OAuth2UserInfo extends GlobalReturnCode {
 	
 	private String openid;
 	private String nickname;
@@ -28,7 +28,7 @@ public class Oauth2UserInfo extends GlobalReturnCode {
 	private String unionid;
 	private List<String> privilege;
 
-	public Oauth2UserInfo() {
+	public OAuth2UserInfo() {
 	}
 
 	/**
