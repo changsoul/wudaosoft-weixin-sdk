@@ -38,7 +38,7 @@ public class WeiXinServletBootAutoConfiguration {
 
 	@Bean
 	@ConditionalOnMissingMyBean(WeiXinMessageHandler.class)
-	public WeiXinMessageHandler WeiXinMessageHandler() {
+	public WeiXinMessageHandler weiXinMessageHandler() {
 		log.info("Use DefaultWeiXinMessageHandler..");
 		return new WeiXinMessageHandlerAdapter(){};
 	}
