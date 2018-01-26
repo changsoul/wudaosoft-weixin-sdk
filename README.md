@@ -16,13 +16,13 @@ Wudaosoft Weixin Official SDK.
 <dependency>
     <groupId>com.wudaosoft</groupId>
     <artifactId>wudaosoft-weixin-sdk</artifactId>
-    <version>2.0.3</version>
+    <version>2.0.4</version>
 </dependency>
 ```
 ## Gradle via JCenter
 
 ``` groovy
-compile 'com.wudaosoft:wudaosoft-weixin-sdk:2.0.3'
+compile 'com.wudaosoft:wudaosoft-weixin-sdk:2.0.4'
 ```
 
 ## Getting started

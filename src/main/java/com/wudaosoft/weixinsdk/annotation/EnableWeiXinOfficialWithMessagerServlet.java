@@ -21,7 +21,7 @@ import java.lang.annotation.Target;
 
 import org.springframework.context.annotation.Import;
 
-import com.wudaosoft.weixinsdk.config.WeiXinAutoConfiguration;
+import com.wudaosoft.weixinsdk.config.WeiXinServletBootAutoConfiguration;
 
 /** 
  * @author Changsoul Wu
@@ -30,7 +30,7 @@ import com.wudaosoft.weixinsdk.config.WeiXinAutoConfiguration;
 @Retention(value = java.lang.annotation.RetentionPolicy.RUNTIME)
 @Target(value = { java.lang.annotation.ElementType.TYPE })
 @Documented
-@Import({WeiXinAutoConfiguration.class})
-public @interface EnableWeiXinOfficial {
+@Import({WeiXinServletBootAutoConfiguration.class})
+public @interface EnableWeiXinOfficialWithMessagerServlet {
 
 }

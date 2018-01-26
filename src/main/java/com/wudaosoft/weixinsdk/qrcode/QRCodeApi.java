@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.wudaosoft.weixinsdk.ApiUrlConstants;
-import com.wudaosoft.weixinsdk.WeiXinConfig;
+import com.wudaosoft.weixinsdk.config.WeiXinConfig;
 import com.wudaosoft.weixinsdk.httpclient.HttpClientUtils;
 
 /**

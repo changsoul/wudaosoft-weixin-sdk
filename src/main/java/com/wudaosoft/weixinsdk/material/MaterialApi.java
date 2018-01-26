@@ -14,7 +14,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.wudaosoft.weixinsdk.ApiUrlConstants;
 import com.wudaosoft.weixinsdk.CommonApi;
 import com.wudaosoft.weixinsdk.GlobalReturnCode;
-import com.wudaosoft.weixinsdk.WeiXinConfig;
+import com.wudaosoft.weixinsdk.config.WeiXinConfig;
 import com.wudaosoft.weixinsdk.httpclient.HttpClientUtils;
 import com.wudaosoft.weixinsdk.type.MediaType;
 import com.wudaosoft.weixinsdk.utils.JsonUtils;

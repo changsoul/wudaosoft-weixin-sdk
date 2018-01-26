@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wudaosoft.weixinsdk.CommonApi;
-import com.wudaosoft.weixinsdk.WeiXinConfig;
+import com.wudaosoft.weixinsdk.config.WeiXinConfig;
 
 /**
  * 微信JSSDK签名
@@ -37,7 +37,6 @@ import com.wudaosoft.weixinsdk.WeiXinConfig;
  * 
  */
 @RestController
-@RequestMapping(value="/api/weixin")
 public class SignJsApiController {
     
 	@Autowired
@@ -49,7 +48,7 @@ public class SignJsApiController {
 	 * @param request
 	 * @return
 	 */
-    @RequestMapping(value = "/jssign", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/api/weixin/jssign", method = {RequestMethod.GET, RequestMethod.POST})
     public ResponseEntity<Map<String, String>> signJsApi(@RequestParam("url") String url, HttpServletRequest request) {
     	
     	//拒绝外部链接

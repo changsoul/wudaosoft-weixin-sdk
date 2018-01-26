@@ -13,43 +13,48 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.wudaosoft.weixinsdk;
+package com.wudaosoft.weixinsdk.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.wudaosoft.weixinsdk.CommonApi;
+import com.wudaosoft.weixinsdk.WeiXinMessageProcess;
 import com.wudaosoft.weixinsdk.aes.AesException;
 
-/**
- * <p>
- * </p>
+/** 
+ * @author Changsoul Wu
  * 
- * @author Changsoul.Wu
- * @date 2014年3月28日 下午12:22:35
  */
-public class WeiXinMessageServlet extends HttpServlet {
+@Controller
+@RequestMapping("/api/weixin/msgserver")
+public class WeiXinMessageController {
 
-	private static final long serialVersionUID = 4120271321525038178L;
-
-	private static final Logger log = LoggerFactory.getLogger(WeiXinMessageServlet.class);
+	private static final Logger log = LoggerFactory.getLogger(WeiXinMessageController.class);
 	
 	private WeiXinMessageProcess process;
 
-	public WeiXinMessageServlet(WeiXinMessageProcess process) {
+	@Autowired
+	public WeiXinMessageController(WeiXinMessageProcess process) {
 		super();
 		this.process = process;
+		log.debug("init WeiXinMessageController success...");
 	}
 
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+	@GetMapping
+	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 
@@ -64,7 +69,7 @@ public class WeiXinMessageServlet extends HttpServlet {
 
 		if (signature != null && timestamp != null && nonce != null && echostr != null) {
 
-			boolean flag = CommonApi.checkSignature("", signature, timestamp, nonce);
+			boolean flag = CommonApi.checkSignature(process.getWeiXinConfig().getToken(), signature, timestamp, nonce);
 
 			if (flag) {
 				log.info("check weixin signature success");
@@ -75,8 +80,8 @@ public class WeiXinMessageServlet extends HttpServlet {
 		}
 	}
 
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+	@PostMapping
+	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, UnsupportedEncodingException {
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("application/xml; encoding=utf-8");

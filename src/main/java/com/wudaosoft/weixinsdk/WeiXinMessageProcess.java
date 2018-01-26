@@ -21,10 +21,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 import org.w3c.dom.Document;
 
 import com.wudaosoft.weixinsdk.aes.AesException;
 import com.wudaosoft.weixinsdk.aes.WXBizMsgCrypt;
+import com.wudaosoft.weixinsdk.config.WeiXinConfig;
 import com.wudaosoft.weixinsdk.exception.WeiXinException;
 import com.wudaosoft.weixinsdk.handler.WeiXinMessageHandler;
 import com.wudaosoft.weixinsdk.message.receive.ReceiveEventMsg;
@@ -50,20 +52,24 @@ public class WeiXinMessageProcess {
 	private static final Logger log = LoggerFactory.getLogger(WeiXinMessageProcess.class);
 	
 	private static final String ENCRYPT_TYPE_AES = "aes";
-	
-	private WeiXinMessageHandler messageHandler;
+
 	private WeiXinConfig wxConf;
+	private WeiXinMessageHandler messageHandler;
 	
 	private WeiXinMessageProcess() {
+	}
+	
+	public WeiXinMessageProcess(WeiXinConfig config, WeiXinMessageHandler messageHandler) {
+		this();
+		Assert.notNull(config, "The WeiXinConfig must not be null");
+		Assert.hasText(config.getToken(), "The 'sign token' must not be empty");
+		Assert.notNull(messageHandler, "The WeiXinMessageHandler must not be null");
+		this.wxConf = config;
+		this.messageHandler = messageHandler;
 	}
 
 	public void setWeixinConfig(WeiXinConfig config) {
 		this.wxConf = config;
-	}
-	
-	public void setWeixinConfig(WeiXinConfig config, WeiXinMessageHandler messageHandler) {
-		this.wxConf = config;
-		this.messageHandler = messageHandler;
 	}
 	
 	public void setMessageHandler(WeiXinMessageHandler messageHandler) {
@@ -87,7 +93,7 @@ public class WeiXinMessageProcess {
 	 */
 	public String processRequest(HttpServletRequest request) throws IOException, WeiXinException, AesException{
 		
-		String respXML = "";
+		String respXML = null;
 		
 		String signature = request.getParameter("signature");
 		String timestamp = request.getParameter("timestamp");
@@ -179,10 +185,10 @@ public class WeiXinMessageProcess {
 	 */
 	private String processEventMsg(ReceiveEventMsg eventMsg) {
 		
-		String respXML = "";
+		String respXML = null;
 		
-		if(eventMsg != null){
-			log.debug("Receive eventType:"+eventMsg.getEvent());
+		if (eventMsg != null) {
+			log.debug("Receive eventType:" + eventMsg.getEvent());
 			
 			EventType eventType = EventType.getEventTypeByName(eventMsg.getEvent());
 			

@@ -13,24 +13,25 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.wudaosoft.weixinsdk.annotation;
+package com.wudaosoft.weixinsdk.config;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScan.Filter;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
 
-import com.wudaosoft.weixinsdk.config.WeiXinAutoConfiguration;
+import com.wudaosoft.weixinsdk.controller.SignJsApiController;
 
-/** 
+/**
  * @author Changsoul Wu
  * 
  */
-@Retention(value = java.lang.annotation.RetentionPolicy.RUNTIME)
-@Target(value = { java.lang.annotation.ElementType.TYPE })
-@Documented
-@Import({WeiXinAutoConfiguration.class})
-public @interface EnableWeiXinOfficial {
+@Configuration
+@ComponentScan(basePackages = { "com.wudaosoft.weixinsdk.controller" }, includeFilters = {
+		@Filter(type = FilterType.ASSIGNABLE_TYPE, value = SignJsApiController.class) }, useDefaultFilters = false)
+@Import({WeiXinAutoCommonConfiguration.class})
+public class WeiXinAutoConfiguration {
 
+	
 }

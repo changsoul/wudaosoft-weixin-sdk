@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.wudaosoft.weixinsdk;
+package com.wudaosoft.weixinsdk.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,7 +32,7 @@ import com.wudaosoft.weixinsdk.usermanage.UserGroupApi;
  * 
  */
 @Configuration
-public class WeiXinAutoConfiguration {
+public class WeiXinAutoCommonConfiguration {
 
 	@Bean
 	public MaterialApi officialMaterialApi(WeiXinConfig officialWeixinConf) {

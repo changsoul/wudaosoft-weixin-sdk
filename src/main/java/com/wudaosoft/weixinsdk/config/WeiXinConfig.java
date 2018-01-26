@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.wudaosoft.weixinsdk;
+package com.wudaosoft.weixinsdk.config;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -24,13 +24,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wudaosoft.weixinsdk.ApiUrlConstants;
 import com.wudaosoft.weixinsdk.aes.AesException;
 import com.wudaosoft.weixinsdk.httpclient.HttpClientUtils;
 
 /**
- * <p>
  * 微信平台配置信息
- * </p>
  * 
  * @author Changsoul.Wu
  * @date 2014年4月18日 上午11:24:38

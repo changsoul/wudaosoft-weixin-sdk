@@ -23,7 +23,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
 
-import com.wudaosoft.weixinsdk.WeiXinConfig;
+import com.wudaosoft.weixinsdk.config.WeiXinConfig;
 import com.wudaosoft.weixinsdk.utils.SHA1;
 
 
