@@ -57,9 +57,9 @@ package com.example.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.wudaosoft.weixinsdk.oauth2.Oauth2AccessToken;
-import com.wudaosoft.weixinsdk.oauth2.Oauth2Api;
-import com.wudaosoft.weixinsdk.oauth2.Oauth2UserInfo;
+import com.wudaosoft.weixinsdk.oauth2.OAuth2AccessToken;
+import com.wudaosoft.weixinsdk.oauth2.OAuth2Api;
+import com.wudaosoft.weixinsdk.oauth2.OAuth2UserInfo;
 
 @Service
 public class WeixinService {
