@@ -68,13 +68,13 @@ public class WeixinService {
 	private OAuth2Api oauth2Api;
 
 	public void doAuth(String code, String state) {
-		Oauth2AccessToken authToken = oauth2Api.getOauth2AccessToken(code);
+		OAuth2AccessToken authToken = oauth2Api.getOauth2AccessToken(code);
     	
     		if (authToken.getErrcode() != 0) {
     			// throw an exception
     		}
     	
-    		Oauth2UserInfo userInfo = oauth2Api.oauth2UserInfo(authToken.getAccess_token(), authToken.getOpenid(), "zh_CN");
+    		OAuth2UserInfo userInfo = oauth2Api.oauth2UserInfo(authToken.getAccess_token(), authToken.getOpenid(), "zh_CN");
     	
     		if (userInfo.getErrcode() != 0) {
     			// throw an exception
