@@ -34,6 +34,7 @@ package com.example.myproject;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.wudaosoft.weixinsdk.annotation.EnableWeiXinOfficial;
+import com.wudaosoft.weixinsdk.config.WeiXinConfig；
 
 @Configuration
 @EnableWeiXinOfficial
