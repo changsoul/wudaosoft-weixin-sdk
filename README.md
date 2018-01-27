@@ -19,7 +19,7 @@ Wudaosoft Weixin Official SDK.
     <version>2.0.4</version>
 </dependency>
 ```
-## Gradle via JCenter
+## Gradle/Grails
 
 ``` groovy
 compile 'com.wudaosoft:wudaosoft-weixin-sdk:2.0.4'
@@ -34,7 +34,7 @@ package com.example.myproject;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.wudaosoft.weixinsdk.annotation.EnableWeiXinOfficial;
-import com.wudaosoft.weixinsdk.config.WeiXinConfig；
+import com.wudaosoft.weixinsdk.config.WeiXinConfig;
 
 @Configuration
 @EnableWeiXinOfficial
