@@ -56,11 +56,7 @@ public class WeiXinMessageProcess {
 	private WeiXinConfig wxConf;
 	private WeiXinMessageHandler messageHandler;
 	
-	private WeiXinMessageProcess() {
-	}
-	
 	public WeiXinMessageProcess(WeiXinConfig config, WeiXinMessageHandler messageHandler) {
-		this();
 		Assert.notNull(config, "The WeiXinConfig must not be null");
 		Assert.hasText(config.getToken(), "The 'sign token' must not be empty");
 		Assert.notNull(messageHandler, "The WeiXinMessageHandler must not be null");

@@ -101,6 +101,7 @@ Here are APIs list:
 - UserApi
 - UserGroupApi
 - CommonApi for static way
+- ResponseMsgBuilder for static way
 
 ### *License*
 
