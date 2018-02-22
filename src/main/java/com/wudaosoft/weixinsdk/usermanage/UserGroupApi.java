@@ -19,7 +19,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.wudaosoft.weixinsdk.ApiUrlConstants;
 import com.wudaosoft.weixinsdk.GlobalReturnCode;
 import com.wudaosoft.weixinsdk.config.WeiXinConfig;
-import com.wudaosoft.weixinsdk.httpclient.HttpClientUtils;
 import com.wudaosoft.weixinsdk.utils.JsonUtils;
 
 /**
@@ -57,7 +56,7 @@ public class UserGroupApi {
 		
 		String url = ApiUrlConstants.GROUPS_CREATE + "?access_token="+wxConf.getAccessToken();
 		
-		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, req.toString());
+		JSONObject resp = wxConf.post(url, req.toString());
 		
 		return JsonUtils.buildSendResult(resp);
 	}
@@ -79,7 +78,7 @@ public class UserGroupApi {
 		
 		String url = ApiUrlConstants.GROUPS_UPDATE + "?access_token="+wxConf.getAccessToken();
 		
-		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, req.toString());
+		JSONObject resp = wxConf.post(url, req.toString());
 		
 		return JsonUtils.buildSendResult(resp);
 	}
@@ -92,7 +91,7 @@ public class UserGroupApi {
 		
 		String url = ApiUrlConstants.GROUPS_GET + "?access_token="+wxConf.getAccessToken();
 		
-		JSONObject resp = HttpClientUtils.getForJsonResult(url);
+		JSONObject resp = wxConf.get(url);
 		
 		try {
 			if (resp != null) {
@@ -130,7 +129,7 @@ public class UserGroupApi {
 		
 		String url = ApiUrlConstants.GROUPS_GET_ID + "?access_token="+wxConf.getAccessToken();
 		
-		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, req.toString());
+		JSONObject resp = wxConf.post(url, req.toString());
 		
 		if(resp != null) {
 			if(resp.containsKey("groupid")) {
@@ -156,7 +155,7 @@ public class UserGroupApi {
 		
 		String url = ApiUrlConstants.MEMBERS_UPDATE + "?access_token="+wxConf.getAccessToken();
 		
-		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, req.toString());
+		JSONObject resp = wxConf.post(url, req.toString());
 		
 		return JsonUtils.buildSendResult(resp);
 	}

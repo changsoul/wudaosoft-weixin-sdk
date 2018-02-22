@@ -10,9 +10,9 @@ package com.wudaosoft.weixinsdk.message.response;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wudaosoft.net.xml.XmlObject;
 import com.wudaosoft.weixinsdk.message.NewsArticles;
 import com.wudaosoft.weixinsdk.type.MsgType;
-import com.wudaosoft.weixinsdk.xml.XmlObject;
 
 /**
  * <p>被动响应消息 生成类</p>

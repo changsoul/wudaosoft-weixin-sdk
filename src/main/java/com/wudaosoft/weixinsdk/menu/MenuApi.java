@@ -12,7 +12,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.wudaosoft.weixinsdk.ApiUrlConstants;
 import com.wudaosoft.weixinsdk.GlobalReturnCode;
 import com.wudaosoft.weixinsdk.config.WeiXinConfig;
-import com.wudaosoft.weixinsdk.httpclient.HttpClientUtils;
 import com.wudaosoft.weixinsdk.utils.JsonUtils;
 
 /**
@@ -80,7 +79,7 @@ public class MenuApi {
 		
 		String url = ApiUrlConstants.MENU_CREATE + "?access_token="+wxConf.getAccessToken();
 		
-		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, jsonString);
+		JSONObject resp = wxConf.post(url, jsonString);
 		
 		return JsonUtils.buildSendResult(resp);
 	}
@@ -93,7 +92,7 @@ public class MenuApi {
 		
 		String url = ApiUrlConstants.MENU_GET + "?access_token="+wxConf.getAccessToken();
 		
-		return HttpClientUtils.getForJsonResult(url);
+		return wxConf.get(url);
 	}
 	
 	/**
@@ -104,7 +103,7 @@ public class MenuApi {
 		
 		String url = ApiUrlConstants.MENU_DELETE + "?access_token="+wxConf.getAccessToken();
 		
-		JSONObject resp = HttpClientUtils.getForJsonResult(url);
+		JSONObject resp = wxConf.get(url);
 		return JsonUtils.buildSendResult(resp);
 	}
 }

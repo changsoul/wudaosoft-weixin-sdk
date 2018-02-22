@@ -14,7 +14,6 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.wudaosoft.weixinsdk.ApiUrlConstants;
 import com.wudaosoft.weixinsdk.GlobalReturnCode;
 import com.wudaosoft.weixinsdk.config.WeiXinConfig;
-import com.wudaosoft.weixinsdk.httpclient.HttpClientUtils;
 import com.wudaosoft.weixinsdk.utils.JsonUtils;
 
 /**
@@ -60,7 +59,7 @@ public class ArticlesApi {
 		
 		String url = ApiUrlConstants.ARTICLES_UPLOAD+"?access_token="+wxConf.getAccessToken();
 		
-		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, jsonString);
+		JSONObject resp = wxConf.post(url, jsonString);
 		
 		return JsonUtils.buildSendResult(resp);
 	}
@@ -69,7 +68,7 @@ public class ArticlesApi {
 		
 		String url = ApiUrlConstants.ARTICLES_UPLOAD_TO_MATERIAL+"?access_token="+wxConf.getAccessToken();
 		
-		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, jsonString);
+		JSONObject resp = wxConf.post(url, jsonString);
 		
 		return JsonUtils.buildSendResult(resp);
 	}
@@ -78,7 +77,7 @@ public class ArticlesApi {
 		
 		String url = ApiUrlConstants.ARTICLES_MATERIAL_UPDATE_NEWS+"?access_token="+wxConf.getAccessToken();
 		
-		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, jsonString);
+		JSONObject resp = wxConf.post(url, jsonString);
 		
 		return JsonUtils.buildSendResult(resp);
 	}
@@ -103,7 +102,7 @@ public class ArticlesApi {
 		
 		String url = ApiUrlConstants.ARTICLES_SEND+"?access_token="+wxConf.getAccessToken();
 		
-		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, JSON.toJSONString(data));
+		JSONObject resp = wxConf.post(url, JSON.toJSONString(data));
 		
 		return JsonUtils.buildSendResult(resp);
 	}
@@ -122,7 +121,7 @@ public class ArticlesApi {
 		
 		String url = ApiUrlConstants.ARTICLES_PREVIEW+"?access_token="+wxConf.getAccessToken();
 		
-		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, JSON.toJSONString(data));
+		JSONObject resp = wxConf.post(url, JSON.toJSONString(data));
 		
 		return JsonUtils.buildSendResult(resp);
 	}
@@ -141,7 +140,7 @@ public class ArticlesApi {
 		
 		String url = ApiUrlConstants.ARTICLES_PREVIEW+"?access_token="+wxConf.getAccessToken();
 		
-		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, JSON.toJSONString(data));
+		JSONObject resp = wxConf.post(url, JSON.toJSONString(data));
 		
 		return JsonUtils.buildSendResult(resp);
 	}

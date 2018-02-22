@@ -16,13 +16,13 @@ Wudaosoft Weixin Official SDK.
 <dependency>
     <groupId>com.wudaosoft</groupId>
     <artifactId>wudaosoft-weixin-sdk</artifactId>
-    <version>2.0.4</version>
+    <version>3.0.0</version>
 </dependency>
 ```
 ## Gradle/Grails
 
 ``` groovy
-compile 'com.wudaosoft:wudaosoft-weixin-sdk:2.0.4'
+compile 'com.wudaosoft:wudaosoft-weixin-sdk:3.0.0'
 ```
 
 ## Getting started
@@ -108,7 +108,7 @@ Here are APIs list:
 wudaosoft-weixin-sdk is released under the [Apache 2.0 license](LICENSE).
 
 ```
-Copyright 2009-2017 Wudao Software Studio
+Copyright 2009-2018 Wudao Software Studio
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

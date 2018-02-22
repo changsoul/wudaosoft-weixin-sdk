@@ -15,7 +15,6 @@ import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.wudaosoft.weixinsdk.ApiUrlConstants;
 import com.wudaosoft.weixinsdk.config.WeiXinConfig;
-import com.wudaosoft.weixinsdk.httpclient.HttpClientUtils;
 import com.wudaosoft.weixinsdk.utils.JsonUtils;
 
 /**
@@ -50,7 +49,7 @@ public class UserApi {
 		if(lang != null )
 			url += "&lang="+lang;
 		
-		JSONObject resp = HttpClientUtils.getForJsonResult(url);
+		JSONObject resp = wxConf.get(url);
 
 		return JsonUtils.buildRequestResult(resp, UserInfo.class);
 	}
@@ -68,7 +67,7 @@ public class UserApi {
 		
 		String url = ApiUrlConstants.USER_GET + "?access_token="+wxConf.getAccessToken()+"&next_openid="+nextOpenId;
 		
-		JSONObject resp = HttpClientUtils.getForJsonResult(url);
+		JSONObject resp = wxConf.get(url);
 
 		SubscribeList list = new SubscribeList();
 		

@@ -15,16 +15,13 @@
  */
 package com.wudaosoft.weixinsdk.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 import com.wudaosoft.weixinsdk.WeiXinMessageProcess;
-import com.wudaosoft.weixinsdk.condition.ConditionalOnMissingMyBean;
 import com.wudaosoft.weixinsdk.handler.WeiXinMessageHandler;
-import com.wudaosoft.weixinsdk.handler.WeiXinMessageHandlerAdapter;
 
 /**
  * @author Changsoul Wu
@@ -32,19 +29,10 @@ import com.wudaosoft.weixinsdk.handler.WeiXinMessageHandlerAdapter;
  */
 @Configuration
 @ComponentScan(basePackages = { "com.wudaosoft.weixinsdk.controller" })
+@Import({WeiXinAutoCommonConfiguration.class})
 public class WeiXinFullAutoConfiguration {
 	
-	private static final Logger log = LoggerFactory.getLogger(WeiXinFullAutoConfiguration.class);
-
 	@Bean
-	@ConditionalOnMissingMyBean(WeiXinMessageHandler.class)
-	public WeiXinMessageHandler weiXinMessageHandler() {
-		log.info("Use DefaultWeiXinMessageHandler..");
-		return new WeiXinMessageHandlerAdapter(){};
-	}
-	
-	@Bean
-	//@ConditionalOnMyBean(WeiXinMessageHandler.class)
 	public WeiXinMessageProcess officialWeiXinMessageProcess(WeiXinConfig officialWeixinConf, WeiXinMessageHandler messageHandler) {
 		return new WeiXinMessageProcess(officialWeixinConf, messageHandler);
 	}

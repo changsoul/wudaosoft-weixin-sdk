@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
 
 import com.wudaosoft.weixinsdk.CommonApi;
 import com.wudaosoft.weixinsdk.WeiXinMessageProcess;
@@ -36,7 +37,8 @@ import com.wudaosoft.weixinsdk.aes.AesException;
  * @author Changsoul.Wu
 
  */
-@WebServlet(urlPatterns="/api/weixin/msgserver")
+@WebServlet(urlPatterns="${wudaosoft.weixin.message-path:${weixin.message-path:/api/weixin/msgserver}}")
+//@WebServlet(urlPatterns="/api/weixin/msgserver")
 public class WeiXinMessageServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 4120271321525038178L;
@@ -48,6 +50,7 @@ public class WeiXinMessageServlet extends HttpServlet {
 	@Autowired
 	public WeiXinMessageServlet(WeiXinMessageProcess process) {
 		super();
+		Assert.notNull(process, "WeiXinMessageProcess must not be null");
 		this.process = process;
 		log.info("Use WeiXinMessageServlet...");
 	}

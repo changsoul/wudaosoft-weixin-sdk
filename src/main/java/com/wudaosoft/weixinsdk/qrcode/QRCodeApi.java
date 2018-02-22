@@ -7,6 +7,7 @@
  
 package com.wudaosoft.weixinsdk.qrcode;
 
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,9 +16,9 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.wudaosoft.net.httpclient.Request;
 import com.wudaosoft.weixinsdk.ApiUrlConstants;
 import com.wudaosoft.weixinsdk.config.WeiXinConfig;
-import com.wudaosoft.weixinsdk.httpclient.HttpClientUtils;
 
 /**
  * <p>生成带参数的二维码 </p>
@@ -62,11 +63,12 @@ public class QRCodeApi {
 		return createQRCode(QR_SCENE, sceneId, expireSeconds);
 	}
 	
-	public String showQRCode(String ticket) {
+	public String showQRCode(String ticket) throws URISyntaxException {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("ticket", ticket);
 		
-		String url = HttpClientUtils.buildReqUrl(ApiUrlConstants.QRCODE_SHOW, params);
+		String url = Request.buildReqUrl(ApiUrlConstants.QRCODE_SHOW, params);
+		
 		return url;
 	}
 	
@@ -86,7 +88,7 @@ public class QRCodeApi {
 		
 		String url = ApiUrlConstants.QRCODE_CREATE + "?access_token="+wxConf.getAccessToken();
 		
-		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, req.toString());
+		JSONObject resp = wxConf.post(url, req.toString());
 		QRCode qrc = new QRCode();
 		
 		if(resp != null) {

@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,8 +40,8 @@ import com.wudaosoft.weixinsdk.aes.AesException;
  * 
  */
 @Controller
-@RequestMapping("/api/weixin/msgserver")
-public class WeiXinMessageController {
+@RequestMapping("${wudaosoft.weixin.message-path:${weixin.message-path:/api/weixin/msgserver}}")
+public class WeiXinMessageController implements MessageController{
 
 	private static final Logger log = LoggerFactory.getLogger(WeiXinMessageController.class);
 	
@@ -49,6 +50,7 @@ public class WeiXinMessageController {
 	@Autowired
 	public WeiXinMessageController(WeiXinMessageProcess process) {
 		super();
+		Assert.notNull(process, "WeiXinMessageProcess must not be null");
 		this.process = process;
 		log.debug("init WeiXinMessageController success...");
 	}

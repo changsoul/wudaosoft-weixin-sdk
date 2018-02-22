@@ -37,6 +37,7 @@ import com.wudaosoft.weixinsdk.config.WeiXinConfig;
  * 
  */
 @RestController
+@RequestMapping("${wudaosoft.weixin.jssign-path:${weixin.jssign-path:/api/weixin/jssign}}")
 public class SignJsApiController {
     
 	@Autowired
@@ -48,7 +49,7 @@ public class SignJsApiController {
 	 * @param request
 	 * @return
 	 */
-    @RequestMapping(value = "/api/weixin/jssign", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
     public ResponseEntity<Map<String, String>> signJsApi(@RequestParam("url") String url, HttpServletRequest request) {
     	
     	//拒绝外部链接

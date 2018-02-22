@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.wudaosoft</groupId>
 	<artifactId>wudaosoft-weixin-sdk</artifactId>
-	<version>2.0.4-SNAPSHOT</version>
+	<version>3.0.0</version>
 	<name>wudaosoft-weixin-sdk</name>
 	<description>Wudaosoft Weixin SDK</description>
 	<url>http://www.wudaosoft.com</url>
@@ -16,7 +16,7 @@
 		<spring.version>4.3.5.RELEASE</spring.version>
 		<httpclient.version>4.5.2</httpclient.version>
 
-		<fastjson.version>1.2.24</fastjson.version>
+		<fastjson.version>1.2.46</fastjson.version>
 
 		<slf4j.version>1.7.21</slf4j.version>
 		<logback.version>1.1.7</logback.version>
@@ -148,12 +148,6 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot</artifactId>
-			<version>1.5.9.RELEASE</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.1.0</version>
@@ -165,26 +159,9 @@
 			<version>1.9</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>${httpclient.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>commons-logging</groupId>
-					<artifactId>commons-logging</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpmime</artifactId>
-			<version>${httpclient.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>fastjson</artifactId>
-			<version>${fastjson.version}</version>
+			<groupId>com.wudaosoft</groupId>
+			<artifactId>wudaosoft-httpclient</artifactId>
+			<version>2.0.2-SNAPSHOT</version>
 		</dependency>
 
 		<!-- Logging with SLF4J & LogBack -->

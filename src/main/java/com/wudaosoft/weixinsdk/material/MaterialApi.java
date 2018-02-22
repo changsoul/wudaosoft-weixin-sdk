@@ -15,7 +15,6 @@ import com.wudaosoft.weixinsdk.ApiUrlConstants;
 import com.wudaosoft.weixinsdk.CommonApi;
 import com.wudaosoft.weixinsdk.GlobalReturnCode;
 import com.wudaosoft.weixinsdk.config.WeiXinConfig;
-import com.wudaosoft.weixinsdk.httpclient.HttpClientUtils;
 import com.wudaosoft.weixinsdk.type.MediaType;
 import com.wudaosoft.weixinsdk.utils.JsonUtils;
 
@@ -55,7 +54,7 @@ public class MaterialApi {
 		
 		String url = ApiUrlConstants.GET_MATERIAL+"?access_token="+wxConf.getAccessToken();
 		
-		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, JSON.toJSONString(data));
+		JSONObject resp = wxConf.post(url, JSON.toJSONString(data));
 		
 		return JsonUtils.buildSendResult(resp);
 	}
@@ -68,7 +67,7 @@ public class MaterialApi {
 		
 		String url = ApiUrlConstants.DEL_MATERIAL+"?access_token="+wxConf.getAccessToken();
 		
-		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, JSON.toJSONString(data));
+		JSONObject resp = wxConf.get(url, JSON.toJSONString(data));
 		
 		return JsonUtils.buildSendResult(resp);
 	}
@@ -81,7 +80,7 @@ public class MaterialApi {
 		
 		String url = ApiUrlConstants.GET_MATERIAL_COUNT;
 		
-		JSONObject resp = HttpClientUtils.getForJsonResult(url, params);
+		JSONObject resp = wxConf.get(url, params);
 		
 		return JsonUtils.buildSendResult(resp);
 	}
@@ -96,7 +95,7 @@ public class MaterialApi {
 		
 		String url = ApiUrlConstants.BATCHGET_MATERIAL+"?access_token="+wxConf.getAccessToken();
 		
-		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, JSON.toJSONString(data));
+		JSONObject resp = wxConf.post(url, JSON.toJSONString(data));
 		
 		return JsonUtils.buildSendResult(resp);
 	}

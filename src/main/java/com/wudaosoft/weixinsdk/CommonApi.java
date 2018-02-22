@@ -15,10 +15,8 @@
  */
 package com.wudaosoft.weixinsdk;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -28,22 +26,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.apache.http.Consts;
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.wudaosoft.weixinsdk.config.WeiXinConfig;
-import com.wudaosoft.weixinsdk.httpclient.HttpClientUtils;
 import com.wudaosoft.weixinsdk.type.MediaType;
 import com.wudaosoft.weixinsdk.utils.DigestUtils;
 import com.wudaosoft.weixinsdk.utils.StringUtils;
@@ -131,22 +119,18 @@ public class CommonApi {
 	public static String mediaUpload(MediaType type, File media, WeiXinConfig wxConf) {
 		String url = ApiUrlConstants.MEDIA_UPLOAD + "?access_token=" + wxConf.getAccessToken() + "&type=" + type;
 
-		String resp = HttpClientUtils.postWeiXinMedia(url, media);
+		try {
+			JSONObject rs = wxConf.getRequest().post(url, media, "media").json();;
 
-		if (resp != null) {
-			try {
-				JSONObject rs = JSONObject.parseObject(resp);
-
-				if (rs.containsKey("media_id")) {
-					String mediaId = rs.getString("media_id");
-					log.debug("Media upload success! mediaId:" + mediaId);
-					return mediaId;
-				} else {
-					log.debug("Media upload error:" + resp);
-				}
-			} catch (JSONException e) {
-				log.error(e.getMessage(), e);
+			if (rs.containsKey("media_id")) {
+				String mediaId = rs.getString("media_id");
+				log.debug("Media upload success! mediaId:" + mediaId);
+				return mediaId;
+			} else {
+				log.debug("Media upload error:" + rs);
 			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
 		}
 		return null;
 	}
@@ -154,22 +138,18 @@ public class CommonApi {
 	public static String mediaUploadForever(MediaType type, File media, WeiXinConfig wxConf) {
 		String url = ApiUrlConstants.ADD_MATERIAL + "?access_token=" + wxConf.getAccessToken() + "&type=" + type;
 
-		String resp = HttpClientUtils.postWeiXinMedia(url, media);
+		try {
+			JSONObject rs = wxConf.getRequest().post(url, media, "media").json();
 
-		if (resp != null) {
-			try {
-				JSONObject rs = JSONObject.parseObject(resp);
-
-				if (rs.containsKey("media_id")) {
-					String mediaId = rs.getString("media_id");
-					log.debug("Media upload forever upload success! mediaId:" + mediaId);
-					return mediaId;
-				} else {
-					log.debug("Media upload forever error:" + resp);
-				}
-			} catch (JSONException e) {
-				log.error(e.getMessage(), e);
+			if (rs.containsKey("media_id")) {
+				String mediaId = rs.getString("media_id");
+				log.debug("Media upload forever upload success! mediaId:" + mediaId);
+				return mediaId;
+			} else {
+				log.debug("Media upload forever error:" + rs);
 			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
 		}
 		return null;
 	}
@@ -183,22 +163,18 @@ public class CommonApi {
 	public static String mediaUploadingForArticle(File media, WeiXinConfig wxConf) {
 		String url = ApiUrlConstants.MEDIA_UPLOAD_FOR_ARTICLE + "?access_token=" + wxConf.getAccessToken();
 
-		String resp = HttpClientUtils.postWeiXinMedia(url, media);
+		try {
+			JSONObject rs = wxConf.getRequest().post(url, media, "media").json();
 
-		if (resp != null) {
-			try {
-				JSONObject rs = JSONObject.parseObject(resp);
-
-				if (rs.containsKey("url")) {
-					String mediaUrl = rs.getString("url");
-					log.debug("Media upload for article success! url:" + mediaUrl);
-					return mediaUrl;
-				} else {
-					log.debug("Media upload for article error:" + resp);
-				}
-			} catch (JSONException e) {
-				log.error(e.getMessage(), e);
+			if (rs.containsKey("url")) {
+				String mediaUrl = rs.getString("url");
+				log.debug("Media upload for article success! url:" + mediaUrl);
+				return mediaUrl;
+			} else {
+				log.debug("Media upload for article error:" + rs);
 			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
 		}
 		return null;
 	}
@@ -219,40 +195,8 @@ public class CommonApi {
 
 		try {
 
-			HttpGet httpGet = new HttpGet(url);
-			// httpGet.setHeader(HttpHeaders.ACCEPT_ENCODING, "");
-			HttpResponse httpResponse = HttpClientUtils.getHttpClient().execute(httpGet);
-
-			StatusLine statusLine = httpResponse.getStatusLine();
-
-			Header contentDisposition = httpResponse.getLastHeader("Content-disposition");
-
-			File file = null;
-
-			if (statusLine.getStatusCode() == 200 && contentDisposition != null) {
-
-				String filename = contentDisposition.getValue().split(";")[1].split("=")[1].replace("\"", "");
-
-				file = new File(dir, filename);
-
-				FileOutputStream outputStream = new FileOutputStream(file);
-
-				InputStream inputStream = httpResponse.getEntity().getContent();
-
-				byte buff[] = new byte[4096];
-				int counts = 0;
-				while ((counts = inputStream.read(buff)) != -1) {
-					outputStream.write(buff, 0, counts);
-				}
-				outputStream.flush();
-				outputStream.close();
-
-				log.debug("download weixin media success! file: " + file.getAbsolutePath());
-			}
-
-			EntityUtils.consume(httpResponse.getEntity());
-
-			return file;
+			return wxConf.getRequest().get(url).file(dir);
+			
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
@@ -260,45 +204,19 @@ public class CommonApi {
 		return null;
 	}
 
-	public static boolean getMaterialImage(OutputStream outputStream, String mediaId, WeiXinConfig wxConf) {
+	public static BufferedImage getMaterialImage(String mediaId, WeiXinConfig wxConf) {
 		String url = ApiUrlConstants.GET_MATERIAL + "?access_token=" + wxConf.getAccessToken();
 
 		try {
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("media_id", mediaId);
 
-			HttpPost httpPost = new HttpPost(url);
-
-			StringEntity reqEntity = new StringEntity(JSON.toJSONString(params), Consts.UTF_8);
-			reqEntity.setContentType(HttpClientUtils.JSON_CONTENT_TYPE);
-			httpPost.setEntity(reqEntity);
-
-			// httpGet.setHeader(HttpHeaders.ACCEPT_ENCODING, "");
-			HttpResponse httpResponse = HttpClientUtils.getHttpClient().execute(httpPost);
-
-			StatusLine statusLine = httpResponse.getStatusLine();
-
-			if (statusLine.getStatusCode() == 200) {
-
-				InputStream inputStream = httpResponse.getEntity().getContent();
-
-				byte buff[] = new byte[4096];
-				int counts = 0;
-				while ((counts = inputStream.read(buff)) != -1) {
-					outputStream.write(buff, 0, counts);
-				}
-				outputStream.flush();
-				outputStream.close();
-			}
-
-			EntityUtils.consume(httpResponse.getEntity());
-
-			return true;
+			return wxConf.getRequest().post(url, JSON.toJSONString(params)).image();
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
 
-		return false;
+		return null;
 	}
 
 	public static String create_nonce_str() {

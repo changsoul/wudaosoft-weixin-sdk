@@ -24,6 +24,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 import org.w3c.dom.Document;
 
+import com.wudaosoft.net.utils.XmlUtils;
+import com.wudaosoft.net.xml.XmlObject;
 import com.wudaosoft.weixinsdk.aes.AesException;
 import com.wudaosoft.weixinsdk.aes.WXBizMsgCrypt;
 import com.wudaosoft.weixinsdk.config.WeiXinConfig;
@@ -38,8 +40,6 @@ import com.wudaosoft.weixinsdk.message.receive.ReceiveVideoMsg;
 import com.wudaosoft.weixinsdk.message.receive.ReceiveVoiceMsg;
 import com.wudaosoft.weixinsdk.type.EventType;
 import com.wudaosoft.weixinsdk.type.MsgType;
-import com.wudaosoft.weixinsdk.utils.XmlUtils;
-import com.wudaosoft.weixinsdk.xml.XmlObject;
 
 /**
  * <p>微信服务器回调处理 </p>
@@ -133,31 +133,31 @@ public class WeiXinMessageProcess {
 				
 				switch (msgType) {
 				case text:
-					respXML = messageHandler.processTextMsg(req.buildWeiXinBean(ReceiveTextMsg.class));
+					respXML = messageHandler.processTextMsg(req.buildUpperCaseBean(ReceiveTextMsg.class));
 					break;
 					
 				case image:
-					respXML = messageHandler.processImageMsg(req.buildWeiXinBean(ReceiveImageMsg.class));
+					respXML = messageHandler.processImageMsg(req.buildUpperCaseBean(ReceiveImageMsg.class));
 					break;
 					
 				case voice:
-					respXML = messageHandler.processVoiceMsg(req.buildWeiXinBean(ReceiveVoiceMsg.class));
+					respXML = messageHandler.processVoiceMsg(req.buildUpperCaseBean(ReceiveVoiceMsg.class));
 					break;
 					
 				case event:
-					respXML = processEventMsg(req.buildWeiXinBean(ReceiveEventMsg.class));
+					respXML = processEventMsg(req.buildUpperCaseBean(ReceiveEventMsg.class));
 					break;
 					
 				case video:
-					respXML = messageHandler.processVideoMsg(req.buildWeiXinBean(ReceiveVideoMsg.class));
+					respXML = messageHandler.processVideoMsg(req.buildUpperCaseBean(ReceiveVideoMsg.class));
 					break;
 					
 				case location:
-					respXML = messageHandler.processLocationMsg(req.buildWeiXinBean(ReceiveLocationMsg.class));
+					respXML = messageHandler.processLocationMsg(req.buildUpperCaseBean(ReceiveLocationMsg.class));
 					break;
 					
 				case link:
-					respXML = messageHandler.processLinkMsg(req.buildWeiXinBean(ReceiveLinkMsg.class));
+					respXML = messageHandler.processLinkMsg(req.buildUpperCaseBean(ReceiveLinkMsg.class));
 					break;
 	
 				default:

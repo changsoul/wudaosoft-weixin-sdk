@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import com.alibaba.fastjson.JSONObject;
 import com.wudaosoft.weixinsdk.ApiUrlConstants;
 import com.wudaosoft.weixinsdk.config.WeiXinConfig;
-import com.wudaosoft.weixinsdk.httpclient.HttpClientUtils;
 import com.wudaosoft.weixinsdk.utils.JsonUtils;
 
 /**
@@ -105,7 +104,7 @@ public class OAuth2Api {
 		params.put("code", code);
 		params.put("grant_type", "authorization_code");
 		
-		JSONObject resp = HttpClientUtils.getForJsonResult(ApiUrlConstants.OAUTH2_ACCESS_TOKEN, params);
+		JSONObject resp = wxConf.get(ApiUrlConstants.OAUTH2_ACCESS_TOKEN, params);
 		
 		return JsonUtils.buildRequestResult(resp, OAuth2AccessToken.class);
 	}
@@ -121,7 +120,7 @@ public class OAuth2Api {
 		params.put("refresh_token", refreshToken);
 		params.put("grant_type", "refresh_token");
 		
-		JSONObject resp = HttpClientUtils.getForJsonResult(ApiUrlConstants.OAUTH2_REFRESH_TOKEN, params);
+		JSONObject resp = wxConf.get(ApiUrlConstants.OAUTH2_REFRESH_TOKEN, params);
 		
 		return JsonUtils.buildRequestResult(resp, OAuth2AccessToken.class);
 	}
@@ -139,7 +138,7 @@ public class OAuth2Api {
 		if(lang != null )
 			url += "&lang="+lang;
 		
-		JSONObject resp = HttpClientUtils.getForJsonResult(url);
+		JSONObject resp = wxConf.get(url);
 
 		return JsonUtils.buildRequestResult(resp, OAuth2UserInfo.class);
 	}

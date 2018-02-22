@@ -12,7 +12,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.wudaosoft.weixinsdk.ApiUrlConstants;
 import com.wudaosoft.weixinsdk.GlobalReturnCode;
 import com.wudaosoft.weixinsdk.config.WeiXinConfig;
-import com.wudaosoft.weixinsdk.httpclient.HttpClientUtils;
 import com.wudaosoft.weixinsdk.message.NewsArticles;
 import com.wudaosoft.weixinsdk.type.MsgType;
 import com.wudaosoft.weixinsdk.utils.JsonUtils;
@@ -61,7 +60,7 @@ public class CustomMsgSender {
 
 		String url = ApiUrlConstants.CUSTOM_SEND + "?access_token=" + wxConf.getAccessToken();
 
-		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, req.toString());
+		JSONObject resp = wxConf.post(url, req.toString());
 
 		return JsonUtils.buildSendResult(resp);
 	}
@@ -89,7 +88,7 @@ public class CustomMsgSender {
 
 		String url = ApiUrlConstants.CUSTOM_SEND + "?access_token=" + wxConf.getAccessToken();
 
-		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, req.toString());
+		JSONObject resp = wxConf.post(url, req.toString());
 
 		return JsonUtils.buildSendResult(resp);
 	}
@@ -116,7 +115,7 @@ public class CustomMsgSender {
 
 		String url = ApiUrlConstants.CUSTOM_SEND + "?access_token=" + wxConf.getAccessToken();
 
-		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, req.toString());
+		JSONObject resp = wxConf.post(url, req.toString());
 
 		return JsonUtils.buildSendResult(resp);
 	}
@@ -149,7 +148,7 @@ public class CustomMsgSender {
 
 		String url = ApiUrlConstants.CUSTOM_SEND + "?access_token=" + wxConf.getAccessToken();
 
-		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, req.toString());
+		JSONObject resp = wxConf.post(url, req.toString());
 
 		return JsonUtils.buildSendResult(resp);
 	}
@@ -190,7 +189,7 @@ public class CustomMsgSender {
 
 		String url = ApiUrlConstants.CUSTOM_SEND + "?access_token=" + wxConf.getAccessToken();
 
-		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, req.toString());
+		JSONObject resp = wxConf.post(url, req.toString());
 
 		return JsonUtils.buildSendResult(resp);
 	}
@@ -233,7 +232,7 @@ public class CustomMsgSender {
 
 		String url = ApiUrlConstants.CUSTOM_SEND + "?access_token=" + wxConf.getAccessToken();
 
-		JSONObject resp = HttpClientUtils.postJsonDataForJsonResult(url, req.toString());
+		JSONObject resp = wxConf.post(url, req.toString());
 
 		return JsonUtils.buildSendResult(resp);
 	}

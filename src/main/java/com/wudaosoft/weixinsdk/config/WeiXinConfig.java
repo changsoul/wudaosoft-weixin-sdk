@@ -15,6 +15,7 @@
  */
 package com.wudaosoft.weixinsdk.config;
 
+import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -24,9 +25,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wudaosoft.net.httpclient.HostConfig;
+import com.wudaosoft.net.httpclient.HostConfigBuilder;
+import com.wudaosoft.net.httpclient.Request;
 import com.wudaosoft.weixinsdk.ApiUrlConstants;
 import com.wudaosoft.weixinsdk.aes.AesException;
-import com.wudaosoft.weixinsdk.httpclient.HttpClientUtils;
 
 /**
  * 微信平台配置信息
@@ -53,15 +56,33 @@ public class WeiXinConfig {
 	private long tokenSecond = System.currentTimeMillis();
 	private long jsAPITicketSecond = System.currentTimeMillis();
 	private byte[] aesKey;
+	
+	private Request request;
 
 	protected WeiXinConfig() {
 	}
 	
+	/**
+	 * @param request
+	 */
+	public WeiXinConfig(Request request) {
+		super();
+		this.request = request;
+	}
+
 	public WeiXinConfig(String appId, String appsecret) {
 		Assert.hasText(appId, "'appId' must not be empty");
 		Assert.hasText(appsecret, "'appsecret' must not be empty");
 		this.appId = appId;
 		this.appsecret = appsecret;
+		
+		HostConfig config = HostConfigBuilder.create(ApiUrlConstants.WEIXIN_API_SERVER_HOST)
+				.setConnectionRequestTimeout(500)
+				.setConnectTimeout(6000)
+				.setSocketTimeout(8000)
+				.setPoolSize(170).build();
+		
+		this.request = Request.createDefault(config);
 	}
 
 	public WeiXinConfig(String appId, String appsecret, String token, String encodingAesKey) throws AesException {
@@ -132,8 +153,8 @@ public class WeiXinConfig {
 			long now = System.currentTimeMillis();
 
 			if (accessToken == null || now - tokenSecond > expiresIn) {
-				JSONObject data = HttpClientUtils.getForJsonResult(ApiUrlConstants.ACCESS_TOKEN
-						+ "?grant_type=client_credential&appid=" + appId + "&secret=" + appsecret);
+				JSONObject data = request.get(ApiUrlConstants.ACCESS_TOKEN
+						+ "?grant_type=client_credential&appid=" + appId + "&secret=" + appsecret).json();
 
 				if (data != null) {
 					if (data.containsKey("access_token")) {
@@ -166,7 +187,7 @@ public class WeiXinConfig {
 			long now = System.currentTimeMillis();
 
 			if (jsAPITicket == null || now - jsAPITicketSecond > jsAPITicketExpiresIn) {
-				JSONObject data = HttpClientUtils.getForJsonResult(url);
+				JSONObject data = request.get(url).json();
 
 				if (data != null) {
 					if (data.containsKey("ticket")) {
@@ -186,5 +207,43 @@ public class WeiXinConfig {
 		} finally {
 			jsAPITicketLock.unlock();
 		}
+	}
+	
+	public Request getRequest() {
+		return this.request;
+	}
+	
+	public JSONObject post(String sufixUrl, String jsonData) {
+		try {
+			return this.request.post(sufixUrl, jsonData).json();
+		} catch (Exception e) {
+			log.error(String.format("Send data to path[%s] fail." + e.getMessage(), sufixUrl), e);
+		}
+		
+		return null;
+	}
+	
+	public JSONObject get(String sufixUrl) {
+		return get(sufixUrl, (String)null);
+	}
+	
+	public JSONObject get(String sufixUrl, String jsonData) {
+		try {
+			return this.request.get(sufixUrl).withStringBody(jsonData).json();
+		} catch (Exception e) {
+			log.error(String.format("get data from path[%s] fail." + e.getMessage(), sufixUrl), e);
+		}
+		
+		return null;
+	}
+	
+	public JSONObject get(String sufixUrl, Map<String, String> params) {
+		try {
+			return this.request.get(sufixUrl, params).json();
+		} catch (Exception e) {
+			log.error(String.format("get data from path[%s] fail." + e.getMessage(), sufixUrl), e);
+		}
+		
+		return null;
 	}
 }
