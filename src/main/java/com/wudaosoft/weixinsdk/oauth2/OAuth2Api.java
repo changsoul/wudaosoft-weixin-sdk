@@ -50,8 +50,8 @@ public class OAuth2Api {
 	 * @param state 重定向后会带上state参数，开发者可以填写a-zA-Z0-9的参数值
 	 * @return
 	 */
-	public String buildBaseOauth2Link(String linkText, String redirectUri, String state) {
-		return buildOauth2Link(linkText, redirectUri, SNSAPI_BASE, state);
+	public String buildBaseOAuth2Link(String linkText, String redirectUri, String state) {
+		return buildOAuth2Link(linkText, redirectUri, SNSAPI_BASE, state);
 	}
 	
 	/**
@@ -61,8 +61,8 @@ public class OAuth2Api {
 	 * @param state 重定向后会带上state参数，开发者可以填写a-zA-Z0-9的参数值
 	 * @return
 	 */
-	public String buildUserinfoOauth2Link(String linkText, String redirectUri, String state) {
-		return buildOauth2Link(linkText, redirectUri, SNSAPI_USERINFO, state);
+	public String buildUserinfoOAuth2Link(String linkText, String redirectUri, String state) {
+		return buildOAuth2Link(linkText, redirectUri, SNSAPI_USERINFO, state);
 	}
 	
 	/**
@@ -72,7 +72,7 @@ public class OAuth2Api {
 	 * @param state
 	 * @return
 	 */
-	private String buildOauth2Link(String linkText, String redirectUri, String scope, String state) {
+	private String buildOAuth2Link(String linkText, String redirectUri, String scope, String state) {
 		if(state == null)
 			state = "";
 		
@@ -97,7 +97,7 @@ public class OAuth2Api {
 	 * @param code
 	 * @return
 	 */
-	public OAuth2AccessToken getOauth2AccessToken(String code) {
+	public OAuth2AccessToken getOAuth2AccessToken(String code) {
 		Map<String, String> params = new HashMap<String, String>(4);
 		params.put("appid", wxConf.getAppId());
 		params.put("secret", wxConf.getAppsecret());
@@ -114,7 +114,7 @@ public class OAuth2Api {
 	 * @param refreshToken 填写通过access_token获取到的refresh_token参数
 	 * @return
 	 */
-	public OAuth2AccessToken refreshOauth2AccessToken(String refreshToken) {
+	public OAuth2AccessToken refreshOAuth2AccessToken(String refreshToken) {
 		Map<String, String> params = new HashMap<String, String>(4);
 		params.put("appid", wxConf.getAppId());
 		params.put("refresh_token", refreshToken);
@@ -132,7 +132,7 @@ public class OAuth2Api {
 	 * @param lang 返回国家地区语言版本，zh_CN 简体，zh_TW 繁体，en 英语
 	 * @return
 	 */
-	public OAuth2UserInfo oAuth2UserInfo(String oauth2AccessToken,String openId, String lang){
+	public OAuth2UserInfo oauth2UserInfo(String oauth2AccessToken,String openId, String lang){
 		String url = ApiUrlConstants.OAUTH2_USERINFO + "?access_token="+oauth2AccessToken+"&openid="+openId;
 		
 		if(lang != null )

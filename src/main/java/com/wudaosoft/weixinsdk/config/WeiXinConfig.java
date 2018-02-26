@@ -80,7 +80,7 @@ public class WeiXinConfig {
 				.setConnectionRequestTimeout(500)
 				.setConnectTimeout(6000)
 				.setSocketTimeout(8000)
-				.setPoolSize(170).build();
+				.setPoolSize(200).build();
 		
 		this.request = Request.createDefault(config);
 	}
