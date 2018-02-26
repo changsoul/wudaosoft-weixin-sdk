@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.wudaosoft</groupId>
 	<artifactId>wudaosoft-weixin-sdk</artifactId>
-	<version>3.0.1</version>
+	<version>3.0.2</version>
 	<name>wudaosoft-weixin-sdk</name>
 	<description>Wudaosoft Weixin SDK</description>
 	<url>http://www.wudaosoft.com</url>
@@ -16,8 +16,8 @@
 		<!-- Dependency versions -->
 		<spring.version>4.3.5.RELEASE</spring.version>
 		<servlet-api.version>3.1.0</servlet-api.version>
-		<httpclient.version>4.5.2</httpclient.version>
-		<commons-codec.version>1.9</commons-codec.version>
+		<httpclient.version>4.5.5</httpclient.version>
+		<commons-codec.version>1.10</commons-codec.version>
 		<fastjson.version>1.2.46</fastjson.version>
 		<wudaosoft-httpclient.version>2.0.3</wudaosoft-httpclient.version>
 		<logback.version>1.2.3</logback.version>
