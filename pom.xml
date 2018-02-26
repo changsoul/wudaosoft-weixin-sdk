@@ -303,7 +303,7 @@
 							<goal>flatten</goal>
 						</goals>
 						<configuration>
-							<updatePomFile>false</updatePomFile>
+							<updatePomFile>true</updatePomFile>
 							<flattenMode>oss</flattenMode>
 							<pomElements>
 								<parent>remove</parent>
