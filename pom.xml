@@ -14,7 +14,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- Dependency versions -->
-        <spring.version>5.2.5.RELEASE</spring.version>
+        <spring.version>5.3.18</spring.version>
         <servlet-api.version>4.0.1</servlet-api.version>
         <httpclient.version>4.5.12</httpclient.version>
         <commons-codec.version>1.13</commons-codec.version>
